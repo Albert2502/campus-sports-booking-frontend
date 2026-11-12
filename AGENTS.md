@@ -96,33 +96,42 @@ anything else.
 
 ## Project
 
-<!-- Fill this in per project. It's the most valuable part of this file, so keep it current and short. -->
-
 ### Overview
 
-<!-- One or two lines. Full detail belongs in docs/DESIGN.md. -->
+React single-page app for Campus Sports Booking: students and teachers of one university book
+campus sports facilities; the admin manages facilities, bookings and users. Mobile first, UI in
+Romanian. Course project (USV, "Ingineria programelor"), team of two. The API lives in
+`campus-sports-booking-backend`. Details: `docs/DESIGN.md`, `docs/frontend-context.md`;
+contract: `docs/openapi.yaml`; design: Figma prototype `T0Jv1Xx6X947N9zoyUwLuC`.
 
 ### Stack
 
+Vite 8 + React 19 (JavaScript), react-router, axios, TanStack Query, React Hook Form + zod,
+Tailwind CSS 4, Gentium Plus (@fontsource), Vitest + React Testing Library + MSW. ESLint 10 +
+Prettier (Google style).
+
 ### Remote and CI
 
-<!-- e.g. GitHub (`origin`), CI in `.github/workflows/`; or Forgejo (`origin`), CI in `.forgejo/workflows/`. -->
-
-- Remote:
-- CI:
+- Remote: GitHub `Albert2502/campus-sports-booking-frontend`; one branch per Jira task
+  (`feature/CB-<n>-<slug>`), PR into `main`, reviewed by the teammate. Jira: project CB on
+  techthieves.atlassian.net.
+- CI: none yet.
 
 ### Commands
 
-- Install:
-- Dev:
-- Build:
-- Test:
-- Lint / typecheck:
+Added in CB-2 / CB-5 (not available before those land):
+
+- Install: `npm install`
+- Dev: `npm run dev` (Vite; proxies `/api` and `/uploads` to the backend on port 3000)
+- Build: `npm run build`
+- Test: `npm test` (Vitest + MSW)
+- Lint / typecheck: `npm run lint`, `npm run format`; no typecheck (JavaScript)
 
 ### Layout
 
-<!-- Top-level directories and what lives where. -->
+`src/` (api, layouts, pages, components, hooks, styles), `docs/`.
 
 ### Gotchas
 
-<!-- Things that have bitten us before and will again. -->
+- Rules (limits, windows) come from the API; the UI shows them but never decides them.
+- Design tokens live in `src/styles/tokens.css` and must match the Figma variables.
