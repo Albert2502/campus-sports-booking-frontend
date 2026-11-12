@@ -189,7 +189,7 @@ Error codes from the API map to Romanian messages in one place (`src/api/errors.
 | | Scope |
 | --- | --- |
 | **M0** | Planning: docs, contract update, Jira sync. |
-| **M1** | Lab 6: CB-2 repo setup, CB-5 React app (Tailwind, tokens, font, router, Query, axios, admin layout), admin Facilities CRUD screen, facility images in the form. |
+| **M1** | Lab 6: CB-2 repo setup, CB-5 React app (Tailwind, tokens, font, router, Query, axios, admin layout), CB-45 admin Facilities CRUD screen, CB-46 facility images in the form. |
 | **M2** | MVP (Jira CB): CB-11, CB-12, CB-16…19, CB-26, CB-27, CB-33, CB-38, CB-41, CB-42, CB-43. Planned in detail after M1. |
 
 **Gate for M1:** `npm run lint`, `npm test` and `npm run build` pass; against the local backend
