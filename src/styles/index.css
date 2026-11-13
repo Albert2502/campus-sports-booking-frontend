@@ -1,0 +1,17 @@
+@import 'tailwindcss';
+@import './tokens.css';
+
+@layer base {
+  body {
+    @apply bg-fundal font-sans leading-[1.4] text-text antialiased;
+  }
+}
+
+/* Login backdrop: sky over a striped pitch, in place of the photo in Figma. */
+.login-backdrop {
+  background:
+    linear-gradient(to bottom, rgb(255 255 255 / 0) 55%, rgb(0 0 0 / 0.25)),
+    repeating-linear-gradient(90deg, #2f8f3a 0 80px, #38a145 80px 160px) 0
+      100% / 100% 55% no-repeat,
+    linear-gradient(to bottom, #5aa8e8, #bfe0fb 45%);
+}
