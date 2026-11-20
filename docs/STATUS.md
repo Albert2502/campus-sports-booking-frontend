@@ -3,21 +3,27 @@
 Where the project actually stands, kept up to date as milestones land and issues get fixed.
 `docs/DESIGN.md` is the decision record and changes rarely; this file changes often.
 
-_Last updated: 2026-11-13._
+_Last updated: 2026-11-20._
 
 ## Current work
 
-- **Task:** M0 planning docs, branch `feature/CB-1-planning-docs`.
-- **Files touched:** `docs/` (context files, openapi.yaml, erd.puml/png, DESIGN.md, STATUS.md), `AGENTS.md`, `README.md`.
-- **Done so far:** inputs copied into `docs/`; DESIGN.md written. Schema v3, seed, ERD and openapi.yaml were changed in the backend repo; `docs/openapi.yaml`, `docs/erd.*` here are copies of those.
-- **Next step:** PR https://github.com/Albert2502/campus-sports-booking-frontend/pull/1 is waiting for Alexandru's review and merge; after the merge, start M1 with `feature/CB-2-repo-setup`.
-- **Blockers / open questions:** none.
+- **Task:** login page and main page (DESIGN §5, 2026-11-20), branch
+  `feature/CB-11-login-and-home-pages`, against the backend branch
+  `feature/CB-7-login-and-home-api`. Steps, one commit each: CB-2 repo setup, CB-5 React
+  app, CB-11 screen 01 Autentificare (background, then the form and session), CB-12
+  protected routes, CB-16 screen 00 Bun venit (account card, then suggested facilities).
+- **Files touched:** `package.json`, `package-lock.json`, tool configs, `.gitignore`,
+  `index.html`, `public/`, `src/`, `README.md`, `docs/DESIGN.md`, `docs/STATUS.md`.
+- **Done so far:** CB-2 configs (Vite with the `/api` and `/uploads` proxy, ESLint,
+  Prettier, `.nvmrc`, `.gitignore`).
+- **Next step:** CB-5 React app.
+- **Blockers / open questions:** none; the branch is not pushed yet.
 
 ## Milestones
 
 | | Scope | Status |
 | --- | --- | --- |
-| **M0** | Planning: docs, schema v3, contract update, Jira sync (done 2026-11-12: CB-2, 4, 14, 15, 21, 30 edited; CB-44, 45, 46 created) | Work done 2026-11-12 (openapi also on Confluence "Document swagger", attachment v2); waiting for PR merge |
+| **M0** | Planning: docs, schema v3, contract update, Jira sync (done 2026-11-12: CB-2, 4, 14, 15, 21, 30 edited; CB-44, 45, 46 created) | Done 2026-11-13 (PR #1 merged; openapi also on Confluence "Document swagger", attachment v2) |
 | **M1** | Lab 6: CB-2 repo setup, CB-5 React app, CB-45 admin Facilities CRUD screen, CB-46 facility images UI | Not started |
 | **M2** | MVP frontend tasks from Jira CB (planned after M1) | Not started |
 

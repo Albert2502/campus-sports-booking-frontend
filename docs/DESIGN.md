@@ -85,8 +85,12 @@ decided on top of them during planning (2026-11-12).
 
 - **Lab 6 first (skeleton + facilities CRUD with images, FE↔BE demo), then the MVP from Jira
   CB.** Albert sets up both repos and the first steps; then Alexandru joins.
+  *Changed 2026-11-20:* the minimal setup arrives with Alexandru's login and main page branch
+  (§5, "Decided during implementation", 1).
 - **One branch per task, `feature/CB-<n>-<slug>`, PR into `main`, reviewed by the teammate.**
   PRs are opened only after asking. The planning docs use `feature/CB-1-planning-docs`.
+  *Changed 2026-11-20:* a branch may group several tasks when they ship together, with one
+  commit per step (§5, "Decided during implementation", 2).
 - **Jira is updated directly** (the import CSV is no longer maintained). `docs/openapi.yaml` in
   the repos is the canonical contract; the Confluence attachment mirrors it.
 - **Coding style: Google JavaScript style, enforced with current tools.** ESLint 10 flat config
@@ -172,7 +176,21 @@ The dev server proxies `/api` and `/uploads` to the backend (default `http://loc
 
 ### Decided during implementation
 
-_None yet._
+1. **Login and main page before the rest of M1, with the setup they need (2026-11-20).**
+   Alexandru asked for the login page (CB-11) and the main page (CB-16) while `main` held
+   only the planning docs, so branch `feature/CB-11-login-and-home-pages` brings the minimal
+   setup with them: CB-2 configs, CB-5 React app (Tailwind tokens, font, router, Query, axios,
+   user layout), then CB-11, the protected route from CB-12 and CB-16. The API side is
+   backend branch `feature/CB-7-login-and-home-api`. The admin screens (CB-45, CB-46) build on
+   this setup instead of redoing it. *Rejected:* waiting for the setup from Albert (blocks
+   the pages); building on the `demo/login-booking` branch (no React Hook Form, structure
+   differs from §4).
+2. **Commit rules for task branches (2026-11-20).** Message
+   `feat(<Jira task name>):CB-<n> -- <short description>`, several small commits per branch
+   (one per step), no source file over 600 lines in a commit. `package-lock.json` is the
+   exception: npm generates it and it stays in git so everybody installs the same versions.
+   Each repo gets one PR into `main` for Albert's review. *Rejected:* leaving the lockfile
+   out of git (installs would drift between us).
 
 ---
 
