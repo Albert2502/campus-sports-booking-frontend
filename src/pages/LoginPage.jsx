@@ -1,11 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { Navigate, useLocation } from 'react-router';
+import { Link, Navigate, useLocation } from 'react-router';
 import { z } from 'zod';
 
 import { errorMessage, fieldErrors } from '../api/errors';
 import { useAuth } from '../auth/AuthContext';
-import { FieldIcon } from '../components/icons';
+import AuthCard from '../components/AuthCard';
 import TextField from '../components/TextField';
 import { Button } from '../components/ui';
 
@@ -27,6 +27,8 @@ export default function LoginPage() {
   // ProtectedRoute sends visitors here with the page they asked for.
   const from = location.state?.from;
   const target = typeof from === 'string' ? from : '/';
+  // Set by the password reset page after a successful reset.
+  const notice = location.state?.notice;
   const {
     register,
     handleSubmit,
@@ -57,58 +59,66 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="login-backdrop flex min-h-dvh items-center justify-center p-4">
-      <main className="w-full max-w-sm rounded-2xl bg-suprafata/95 px-6 py-8 shadow-xl ring-1 ring-bordura backdrop-blur sm:px-8">
-        <div className="flex flex-col items-center text-center">
-          <span className="flex size-14 items-center justify-center rounded-xl bg-principala text-white shadow">
-            <FieldIcon className="size-8" />
-          </span>
-          <h1 className="mt-5 text-[32px] leading-tight font-bold">
-            Autentificare
-          </h1>
-          <p className="mt-2 text-sm text-text-secundar">
-            Rezervare facilități sportive
-            <br />
-            Acces cu un cont instituțional.
-          </p>
-        </div>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          noValidate
-          className="mt-6 flex flex-col gap-4"
+    <AuthCard
+      title="Autentificare"
+      subtitle={
+        <>
+          Rezervare facilități sportive
+          <br />
+          Acces cu un cont instituțional.
+        </>
+      }
+    >
+      {typeof notice === 'string' && (
+        <p
+          role="status"
+          className="mt-5 rounded-lg bg-green-50 px-3 py-2 text-center text-sm text-green-800 ring-1 ring-green-200"
         >
-          <TextField
-            id="email"
-            label="Email instituțional"
-            labelClassName="text-center"
-            type="email"
-            autoComplete="username"
-            placeholder="nume@universitate.ro"
-            registration={register('email')}
-            error={errors.email?.message}
-          />
-          <TextField
-            id="password"
-            label="Parolă"
-            labelClassName="text-center"
-            type="password"
-            autoComplete="current-password"
-            registration={register('password')}
-            error={errors.password?.message}
-          />
-          {errors.root?.server && (
-            <p
-              className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-800 ring-1 ring-red-200"
-              role="alert"
-            >
-              {errors.root.server.message}
-            </p>
-          )}
-          <Button type="submit" disabled={isSubmitting} className="mt-2 w-full">
-            {isSubmitting ? 'Se verifică…' : 'Autentificare'}
-          </Button>
-        </form>
-      </main>
-    </div>
+          {notice}
+        </p>
+      )}
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        noValidate
+        className="mt-6 flex flex-col gap-4"
+      >
+        <TextField
+          id="email"
+          label="Email instituțional"
+          labelClassName="text-center"
+          type="email"
+          autoComplete="username"
+          placeholder="nume@universitate.ro"
+          registration={register('email')}
+          error={errors.email?.message}
+        />
+        <TextField
+          id="password"
+          label="Parolă"
+          labelClassName="text-center"
+          type="password"
+          autoComplete="current-password"
+          registration={register('password')}
+          error={errors.password?.message}
+        />
+        <Link
+          to="/parola-uitata"
+          className="-mt-2 self-end text-sm text-principala hover:underline"
+        >
+          Ai uitat parola?
+        </Link>
+        {errors.root?.server && (
+          <p
+            className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-800 ring-1 ring-red-200"
+            role="alert"
+          >
+            {errors.root.server.message}
+          </p>
+        )}
+        <Button type="submit" disabled={isSubmitting} className="mt-2 w-full">
+          {isSubmitting ? 'Se verifică…' : 'Autentificare'}
+        </Button>
+      </form>
+    </AuthCard>
   );
 }

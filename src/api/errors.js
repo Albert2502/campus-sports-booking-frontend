@@ -3,6 +3,8 @@ const MESSAGES = {
   VALIDATION_ERROR: 'Verifică datele introduse.',
   INVALID_CREDENTIALS: 'Email sau parolă greșite.',
   WRONG_PASSWORD: 'Parola curentă nu este corectă.',
+  RESET_TOKEN_INVALID:
+    'Linkul de resetare a expirat sau a fost deja folosit. Cere unul nou.',
   UNAUTHORIZED: 'Sesiunea a expirat. Autentifică-te din nou.',
   FORBIDDEN: 'Nu ai acces la această pagină.',
   NOT_FOUND: 'Nu am găsit ce ai căutat.',

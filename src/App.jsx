@@ -5,13 +5,18 @@ import UserLayout from './layouts/UserLayout';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import ChangePasswordPage from './pages/ChangePasswordPage';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import NotReadyPage from './pages/NotReadyPage';
 import ProfilePage from './pages/ProfilePage';
+import ResetPasswordPage from './pages/ResetPasswordPage';
 
 export default function App() {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/parola-uitata" element={<ForgotPasswordPage />} />
+      {/* The path is in the reset email (backend APP_URL/resetare-parola). */}
+      <Route path="/resetare-parola" element={<ResetPasswordPage />} />
       <Route
         element={
           <ProtectedRoute>
