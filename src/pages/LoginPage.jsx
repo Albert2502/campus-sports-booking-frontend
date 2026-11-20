@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { errorMessage, fieldErrors } from '../api/errors';
 import { useAuth } from '../auth/AuthContext';
 import { FieldIcon } from '../components/icons';
+import TextField from '../components/TextField';
 import { Button } from '../components/ui';
 
 // Only the format is checked here; the domain and the password rules come
@@ -18,31 +19,6 @@ const loginSchema = z.object({
     .pipe(z.email({ error: 'Introdu o adresă de email validă.' })),
   password: z.string().min(1, { error: 'Introdu parola.' }),
 });
-
-function Field({ id, label, error, registration, ...inputProps }) {
-  return (
-    <div className="flex flex-col gap-1.5">
-      <label htmlFor={id} className="text-center text-sm font-bold">
-        {label}
-      </label>
-      <input
-        id={id}
-        aria-invalid={error ? 'true' : undefined}
-        aria-describedby={error ? `${id}-error` : undefined}
-        className={`h-11 rounded-lg bg-fundal px-3 text-base ring-1 outline-none focus:ring-2 focus:ring-principala ${
-          error ? 'ring-red-500' : 'ring-bordura'
-        }`}
-        {...registration}
-        {...inputProps}
-      />
-      {error && (
-        <p id={`${id}-error`} className="text-sm text-red-700">
-          {error}
-        </p>
-      )}
-    </div>
-  );
-}
 
 /** Screen 01 Autentificare (Figma): a card over the pitch backdrop. */
 export default function LoginPage() {
@@ -101,18 +77,20 @@ export default function LoginPage() {
           noValidate
           className="mt-6 flex flex-col gap-4"
         >
-          <Field
+          <TextField
             id="email"
             label="Email instituțional"
+            labelClassName="text-center"
             type="email"
             autoComplete="username"
             placeholder="nume@universitate.ro"
             registration={register('email')}
             error={errors.email?.message}
           />
-          <Field
+          <TextField
             id="password"
             label="Parolă"
+            labelClassName="text-center"
             type="password"
             autoComplete="current-password"
             registration={register('password')}

@@ -4,6 +4,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import UserLayout from './layouts/UserLayout';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
+import ChangePasswordPage from './pages/ChangePasswordPage';
 import NotReadyPage from './pages/NotReadyPage';
 import ProfilePage from './pages/ProfilePage';
 
@@ -30,11 +31,7 @@ export default function App() {
           element={<NotReadyPage title="Detalii facilitate" />}
         />
         <Route path="profil" element={<ProfilePage />} />
-        {/* TODO(CB-50): change-password screen. */}
-        <Route
-          path="profil/parola"
-          element={<NotReadyPage title="Schimbă parola" />}
-        />
+        <Route path="profil/parola" element={<ChangePasswordPage />} />
         {/* TODO(CB-27): screen 06 Rezervările mele. */}
         <Route
           path="rezervari"

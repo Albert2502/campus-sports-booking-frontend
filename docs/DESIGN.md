@@ -203,6 +203,13 @@ The dev server proxies `/api` and `/uploads` to the backend (default `http://loc
 5. **Phone bar: "Profil" instead of "Ieșire" (2026-11-20, CB-48).** As in Figma, the last
    item of the phone bar opens the profile, which has "Deconectare". On desktop the avatar
    and name link to `/profil`; the "Ieșire" button stays in the top bar.
+6. **"Schimbă parola" screen and a shared text field (2026-11-20, CB-50).** Figma has no
+   frame for it, so `/profil/parola` is a card in the app's style: current, new and repeated
+   password, then a success message in place of the form. The client checks repeat the
+   server's simple rules (required, 8+ characters, differs from current, repeat matches); the
+   72-byte limit stays on the server, whose field messages are shown under the fields. The
+   login form's field became `src/components/TextField.jsx` (optional hint, label class)
+   so the password screens share it. *Rejected:* a copy of the field in every form.
 
 ---
 
