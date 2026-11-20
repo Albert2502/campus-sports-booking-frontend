@@ -21,8 +21,10 @@ _Last updated: 2026-11-20._
   backdrop, React Hook Form + zod form with Romanian errors under the fields, API field
   errors, token in `AuthContext` and localStorage, opens `/` after login); CB-12 protected
   route (anonymous visitors go to `/login` and come back to the page they asked for; a
-  rejected token signs out) and the user menu with name, avatar and "Ieșire".
-- **Next step:** CB-16 screen 00 Bun venit.
+  rejected token signs out) and the user menu with name, avatar and "Ieșire"; CB-16 welcome
+  card (greeting, account status, remaining bookings from `/users/me`, "Închiriază un
+  teren").
+- **Next step:** CB-16 suggested facilities.
 - **Blockers / open questions:** none; the branch is not pushed yet.
 
 ## Milestones
@@ -50,6 +52,8 @@ _Last updated: 2026-11-20._
 - `TODO(CB-12)`: `/admin` is open in Lab 6; CB-12 adds AdminRoute.
 - `TODO(CB-27)` in `src/App.jsx`: "Rezervări" in the menu opens a "not ready" page until
   screen 06 exists.
+- `TODO(CB-17)` in `src/App.jsx`: "Închiriază un teren" on screen 00 opens `/calendar`, a
+  "not ready" page until screen 02 exists.
 
 ## Not yet verified
 

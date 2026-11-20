@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from 'react-router';
 
 import ProtectedRoute from './components/ProtectedRoute';
 import UserLayout from './layouts/UserLayout';
+import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import NotReadyPage from './pages/NotReadyPage';
 
@@ -16,7 +17,12 @@ export default function App() {
           </ProtectedRoute>
         }
       >
-        <Route index element={null} />
+        <Route index element={<HomePage />} />
+        {/* TODO(CB-17): screen 02 Calendar și filtre. */}
+        <Route
+          path="calendar"
+          element={<NotReadyPage title="Calendar și filtre" />}
+        />
         {/* TODO(CB-27): screen 06 Rezervările mele. */}
         <Route
           path="rezervari"
