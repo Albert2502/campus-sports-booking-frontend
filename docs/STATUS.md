@@ -15,8 +15,10 @@ _Last updated: 2026-11-20._
 - **Files touched:** `package.json`, `package-lock.json`, tool configs, `.gitignore`,
   `index.html`, `public/`, `src/`, `README.md`, `docs/DESIGN.md`, `docs/STATUS.md`.
 - **Done so far:** CB-2 configs (Vite with the `/api` and `/uploads` proxy, ESLint,
-  Prettier, `.nvmrc`, `.gitignore`).
-- **Next step:** CB-5 React app.
+  Prettier, `.nvmrc`, `.gitignore`); CB-5 React app (Tailwind 4 with the Figma tokens,
+  Gentium Plus, react-router, TanStack Query, axios client, `src/api/errors.js`, user layout
+  with the top bar on desktop and the bottom bar on phones).
+- **Next step:** CB-11 screen 01 Autentificare.
 - **Blockers / open questions:** none; the branch is not pushed yet.
 
 ## Milestones
@@ -39,6 +41,8 @@ _None yet._
 ## Still to do
 
 - `TODO(CB-12)`: `/admin` is open in Lab 6; CB-12 adds AdminRoute.
+- `TODO(CB-27)` in `src/App.jsx`: "Rezervări" in the menu opens a "not ready" page until
+  screen 06 exists.
 
 ## Not yet verified
 
