@@ -17,8 +17,9 @@ _Last updated: 2026-11-20._
 - **Done so far:** CB-2 configs (Vite with the `/api` and `/uploads` proxy, ESLint,
   Prettier, `.nvmrc`, `.gitignore`); CB-5 React app (Tailwind 4 with the Figma tokens,
   Gentium Plus, react-router, TanStack Query, axios client, `src/api/errors.js`, user layout
-  with the top bar on desktop and the bottom bar on phones).
-- **Next step:** CB-11 screen 01 Autentificare.
+  with the top bar on desktop and the bottom bar on phones); CB-11 backdrop and card of
+  screen 01 (`/login`).
+- **Next step:** CB-11 login form and session.
 - **Blockers / open questions:** none; the branch is not pushed yet.
 
 ## Milestones

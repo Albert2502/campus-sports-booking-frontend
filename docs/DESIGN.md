@@ -191,6 +191,10 @@ The dev server proxies `/api` and `/uploads` to the backend (default `http://loc
    exception: npm generates it and it stays in git so everybody installs the same versions.
    Each repo gets one PR into `main` for Albert's review. *Rejected:* leaving the lockfile
    out of git (installs would drift between us).
+3. **Login backdrop drawn in CSS (2026-11-20).** Screen 01 in Figma shows a photo of a
+   pitch behind the card; the repo has no licensed photo, so `.login-backdrop` in
+   `src/styles/index.css` draws sky and a striped pitch in the same colours. Swap in the
+   photo once the team has one. *Rejected:* a stock photo of unknown licence.
 
 ---
 
