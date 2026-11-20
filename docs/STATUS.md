@@ -7,17 +7,16 @@ _Last updated: 2026-11-20._
 
 ## Current work
 
-- **Task:** CB-48 screen 09 Profil, branch `feature/CB-48-profile-page`: route `/profil`,
-  profile data and account status from `GET /users/me` (incl. `noShowCount`, backend PR #3),
-  "Schimbă parola" link, "Deconectare"; Vitest + React Testing Library + MSW setup. Next in
-  the stack: CB-50 change-password screen, then CB-51 password reset screens.
-- **Files touched:** `package.json`, `package-lock.json`, `vite.config.js`, `src/test/`,
-  `src/App.jsx`, `src/layouts/UserLayout.jsx`, `src/components/icons.jsx`, `src/lib/format.js`,
-  `src/pages/ProfilePage.jsx`, `src/pages/ProfilePage.test.jsx`, `docs/openapi.yaml` (synced
-  with the backend: `noShowCount`), `docs/DESIGN.md`, `docs/STATUS.md`.
-- **Done so far:** screen 09/09b at `/profil` (8 tests green, checked at 390/1440 against
-  Figma); Vitest + RTL + MSW setup; Profil in the phone bar.
-- **Next step:** PR for Alexandru's review; then CB-50 on `feature/CB-50-change-password-page`.
+- **Task:** CB-50 change-password screen, branch `feature/CB-50-change-password-page`
+  (stacked on CB-48, PR #3): `/profil/parola` with current, new and repeated password,
+  against `POST /users/me/password` (backend PR #4). The login form's field moves to a shared
+  `TextField` for this and the reset screens (CB-51).
+- **Files touched:** `src/components/TextField.jsx`, `src/pages/LoginPage.jsx`,
+  `src/pages/ChangePasswordPage.jsx` (+ test), `src/api/users.js`, `src/api/errors.js`,
+  `src/App.jsx`, `docs/openapi.yaml`, `docs/STATUS.md`.
+- **Done so far:** screen and route, shared `TextField`, tests (login + change password),
+  checked in the browser against the backend at 390/1440 (DESIGN §5, 6).
+- **Next step:** PR for Alexandru's review; then CB-51 on `feature/CB-51-password-reset-pages`.
 - **Blockers / open questions:** none.
 
 ## Milestones
@@ -51,8 +50,6 @@ _Last updated: 2026-11-20._
   `/facilitati/:facilityId`, a "not ready" page until screen 03 exists.
 - After login every role lands on screen 00, the admin too; the admin area and its menu
   come with CB-12 (AdminRoute) and CB-45.
-- `TODO(CB-50)` in `src/App.jsx`: "Schimbă parola" on the profile opens a "not ready" page
-  until the change-password screen exists.
 - `TODO(M2)` in `src/pages/ProfilePage.jsx`: the "Plătește amenda" button on a blocked
   account (needs fine payments) and the "Notificări prin email" switch (nothing stores the
   setting yet); left out instead of shown as fake controls (DESIGN §5, 4).
