@@ -19,8 +19,10 @@ _Last updated: 2026-11-20._
   Gentium Plus, react-router, TanStack Query, axios client, `src/api/errors.js`, user layout
   with the top bar on desktop and the bottom bar on phones); CB-11 screen 01 (`/login`:
   backdrop, React Hook Form + zod form with Romanian errors under the fields, API field
-  errors, token in `AuthContext` and localStorage, opens `/` after login).
-- **Next step:** CB-12 protected routes and the user menu.
+  errors, token in `AuthContext` and localStorage, opens `/` after login); CB-12 protected
+  route (anonymous visitors go to `/login` and come back to the page they asked for; a
+  rejected token signs out) and the user menu with name, avatar and "Ieșire".
+- **Next step:** CB-16 screen 00 Bun venit.
 - **Blockers / open questions:** none; the branch is not pushed yet.
 
 ## Milestones
@@ -33,7 +35,10 @@ _Last updated: 2026-11-20._
 
 ## Bugs found and fixed
 
-_None yet._
+- **Frontend, CB-12:** after signing in from a protected page, the app opened `/` instead
+  of that page. Cause: `LoginPage` redirected to `/` as soon as the user was set, before the
+  submit handler navigated to the saved page. Fix: one redirect, to `location.state.from`
+  or `/`.
 
 ## Open issues
 

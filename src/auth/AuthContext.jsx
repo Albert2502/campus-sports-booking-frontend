@@ -62,11 +62,12 @@ export function AuthProvider({ children }) {
     () => ({
       status,
       user: status === 'authenticated' ? me.data : null,
+      error: status === 'error' ? me.error : null,
       login,
       logout,
       retry: me.refetch,
     }),
-    [status, me.data, me.refetch, login, logout],
+    [status, me.data, me.error, me.refetch, login, logout],
   );
 
   return <AuthContext value={value}>{children}</AuthContext>;

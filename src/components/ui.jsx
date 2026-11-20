@@ -1,5 +1,6 @@
 import { Link } from 'react-router';
 
+import { initials } from '../lib/format';
 import { FieldIcon } from './icons';
 
 export function Logo({ inverted = false }) {
@@ -11,6 +12,17 @@ export function Logo({ inverted = false }) {
     >
       <FieldIcon className="size-5" />
       Campus Field
+    </span>
+  );
+}
+
+export function Avatar({ fullName, className = '' }) {
+  return (
+    <span
+      className={`inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-suprafata text-xs font-bold text-principala ring-1 ring-bordura ${className}`}
+      aria-hidden="true"
+    >
+      {initials(fullName)}
     </span>
   );
 }

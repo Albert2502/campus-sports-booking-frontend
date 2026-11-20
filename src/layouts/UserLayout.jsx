@@ -1,7 +1,8 @@
 import { NavLink, Outlet } from 'react-router';
 
-import { ClipboardIcon, HomeIcon } from '../components/icons';
-import { Logo } from '../components/ui';
+import { useAuth } from '../auth/AuthContext';
+import { ClipboardIcon, HomeIcon, LogoutIcon } from '../components/icons';
+import { Avatar, Logo } from '../components/ui';
 
 const NAV_ITEMS = [
   { to: '/', label: 'Acasă', icon: HomeIcon, end: true },
@@ -22,9 +23,10 @@ function bottomNavClass({ isActive }) {
 
 /**
  * Student and teacher pages, as in Figma: blue top bar on desktop, blue
- * bottom bar on phones.
+ * bottom bar on phones. Rendered only inside ProtectedRoute.
  */
 export default function UserLayout() {
+  const { user, logout } = useAuth();
   return (
     <div className="min-h-dvh pb-24 md:pb-0">
       <header className="hidden bg-principala text-white md:block">
@@ -42,6 +44,17 @@ export default function UserLayout() {
               </NavLink>
             ))}
           </nav>
+          <div className="ml-auto flex items-center gap-3">
+            <Avatar fullName={user.fullName} />
+            <span className="text-sm font-bold">{user.fullName}</span>
+            <button
+              type="button"
+              onClick={logout}
+              className="ml-2 rounded-md px-3 py-1.5 text-sm text-white/90 ring-1 ring-white/50 hover:bg-white/10"
+            >
+              Ieșire
+            </button>
+          </div>
         </div>
       </header>
       <main className="mx-auto max-w-6xl px-4 py-6 md:px-6 md:py-10">
@@ -62,6 +75,14 @@ export default function UserLayout() {
             {item.label}
           </NavLink>
         ))}
+        <button
+          type="button"
+          onClick={logout}
+          className="flex flex-col items-center gap-1 py-2 text-xs text-white/75"
+        >
+          <LogoutIcon className="size-6" />
+          Ieșire
+        </button>
       </nav>
     </div>
   );

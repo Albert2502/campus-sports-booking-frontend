@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { Navigate, useLocation, useNavigate } from 'react-router';
+import { Navigate, useLocation } from 'react-router';
 import { z } from 'zod';
 
 import { errorMessage, fieldErrors } from '../api/errors';
@@ -47,8 +47,10 @@ function Field({ id, label, error, registration, ...inputProps }) {
 /** Screen 01 Autentificare (Figma): a card over the pitch backdrop. */
 export default function LoginPage() {
   const { status, login } = useAuth();
-  const navigate = useNavigate();
   const location = useLocation();
+  // ProtectedRoute sends visitors here with the page they asked for.
+  const from = location.state?.from;
+  const target = typeof from === 'string' ? from : '/';
   const {
     register,
     handleSubmit,
@@ -59,15 +61,14 @@ export default function LoginPage() {
     defaultValues: { email: '', password: '' },
   });
 
+  // Also the redirect after a successful login: login() sets the user.
   if (status === 'authenticated') {
-    return <Navigate to="/" replace />;
+    return <Navigate to={target} replace />;
   }
 
   async function onSubmit({ email, password }) {
     try {
       await login(email, password);
-      const from = location.state?.from;
-      navigate(typeof from === 'string' ? from : '/', { replace: true });
     } catch (error) {
       const fields = Object.entries(fieldErrors(error));
       for (const [field, message] of fields) {
