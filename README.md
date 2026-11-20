@@ -3,8 +3,21 @@
 Web app (React, Vite, Tailwind) for booking campus sports facilities.
 Course project, USV "Ingineria programelor".
 
-Status: planning in progress (see `docs/STATUS.md`). Run instructions arrive
-with the first setup task (CB-2).
+Status: see `docs/STATUS.md`.
+
+## Run locally
+
+Needs Node.js 24 and the backend (`campus-sports-booking-backend`) running on
+http://localhost:3000; see its README.
+
+1. `npm install`
+2. Optional: copy `.env.example` to `.env` if the backend runs elsewhere
+   (`VITE_BACKEND_URL`).
+3. `npm run dev` and open http://localhost:5173. Sign in with a seed account,
+   e.g. `ana@campus.test` / `parola123` (student) or `prof.radu@campus.test` /
+   `parola123` (teacher).
+
+Other scripts: `npm run build`, `npm run lint`, `npm run format`.
 
 - Design and decisions: `docs/DESIGN.md`
 - Progress: `docs/STATUS.md`

@@ -23,8 +23,9 @@ _Last updated: 2026-11-20._
   route (anonymous visitors go to `/login` and come back to the page they asked for; a
   rejected token signs out) and the user menu with name, avatar and "Ieșire"; CB-16 welcome
   card (greeting, account status, remaining bookings from `/users/me`, "Închiriază un
-  teren").
-- **Next step:** CB-16 suggested facilities.
+  teren") and the first three facilities from `GET /facilities` as suggestions; run steps
+  in `README.md`.
+- **Next step:** one PR per repo into `main` for Albert's review.
 - **Blockers / open questions:** none; the branch is not pushed yet.
 
 ## Milestones
@@ -54,7 +55,16 @@ _Last updated: 2026-11-20._
   screen 06 exists.
 - `TODO(CB-17)` in `src/App.jsx`: "Închiriază un teren" on screen 00 opens `/calendar`, a
   "not ready" page until screen 02 exists.
+- `TODO(CB-19)` in `src/App.jsx`: "Închiriază" on a suggested facility opens
+  `/facilitati/:facilityId`, a "not ready" page until screen 03 exists.
+- After login every role lands on screen 00, the admin too; the admin area and its menu
+  come with CB-12 (AdminRoute) and CB-45.
+- Frontend tests (Vitest, React Testing Library, MSW) come with CB-41; this branch was
+  checked by hand in the browser.
 
 ## Not yet verified
 
 - Figma frames were read through screenshots and layer names only (figma.com is blocked by the container network), so exact spacing and sizes still need checking with the Figma inspector during CB-5.
+- Screens 00 and 01 were compared with the Figma frames by eye at 390 px and 1440 px, not
+  with the inspector. The seed facilities have no images, so the cards show a placeholder
+  until images are uploaded (CB-44, CB-46).

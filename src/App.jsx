@@ -23,6 +23,11 @@ export default function App() {
           path="calendar"
           element={<NotReadyPage title="Calendar și filtre" />}
         />
+        {/* TODO(CB-19): screen 03 Detalii facilitate. */}
+        <Route
+          path="facilitati/:facilityId"
+          element={<NotReadyPage title="Detalii facilitate" />}
+        />
         {/* TODO(CB-27): screen 06 Rezervările mele. */}
         <Route
           path="rezervari"

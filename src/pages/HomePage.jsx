@@ -1,6 +1,84 @@
+import { useQuery } from '@tanstack/react-query';
+
+import { errorMessage } from '../api/errors';
+import { getFacilities } from '../api/facilities';
 import { useAuth } from '../auth/AuthContext';
-import { Avatar, ButtonLink, Card } from '../components/ui';
+import { FieldIcon } from '../components/icons';
+import {
+  Avatar,
+  ButtonLink,
+  Card,
+  ErrorState,
+  LoadingState,
+} from '../components/ui';
 import { firstName, formatDate, monthlyRemainingText } from '../lib/format';
+
+const SUGGESTION_COUNT = 3;
+
+function FacilityCard({ facility }) {
+  const image = facility.images[0];
+  return (
+    <Card padding="p-4" className="flex flex-col gap-3">
+      {image ? (
+        <img
+          src={image.url}
+          alt={facility.name}
+          className="aspect-[16/9] w-full rounded-xl object-cover ring-1 ring-bordura"
+        />
+      ) : (
+        <div className="flex aspect-[16/9] w-full items-center justify-center rounded-xl bg-fundal text-principala/40 ring-1 ring-bordura">
+          <FieldIcon className="size-10" />
+        </div>
+      )}
+      <div>
+        <h3 className="text-base font-bold">{facility.name}</h3>
+        <p className="text-sm text-text-secundar">
+          {facility.sport.name} · {facility.capacity} jucători
+        </p>
+      </div>
+      <ButtonLink
+        to={`/facilitati/${facility.id}`}
+        variant="outline"
+        className="w-full"
+      >
+        Închiriază
+      </ButtonLink>
+    </Card>
+  );
+}
+
+function Suggestions() {
+  const facilities = useQuery({
+    queryKey: ['facilities', 'active'],
+    queryFn: getFacilities,
+  });
+  const suggestions = facilities.data?.slice(0, SUGGESTION_COUNT) ?? [];
+
+  return (
+    <section>
+      <h2 className="mb-4 text-base font-bold">Sugestii de facilități</h2>
+      {facilities.isPending && <LoadingState />}
+      {facilities.isError && (
+        <ErrorState
+          text={errorMessage(facilities.error)}
+          onRetry={() => facilities.refetch()}
+        />
+      )}
+      {facilities.isSuccess && suggestions.length === 0 && (
+        <p className="text-text-secundar">
+          Nu există facilități disponibile momentan.
+        </p>
+      )}
+      {suggestions.length > 0 && (
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {suggestions.map((facility) => (
+            <FacilityCard key={facility.id} facility={facility} />
+          ))}
+        </div>
+      )}
+    </section>
+  );
+}
 
 function AccountStatus({ user }) {
   const isActive = user.status === 'active';
@@ -22,7 +100,7 @@ function AccountStatus({ user }) {
   );
 }
 
-/** Screen 00 Bun venit (Figma), data from GET /users/me. */
+/** Screen 00 Bun venit (Figma), data from GET /users/me and /facilities. */
 export default function HomePage() {
   const { user } = useAuth();
 
@@ -45,6 +123,7 @@ export default function HomePage() {
           Închiriază un teren
         </ButtonLink>
       </Card>
+      <Suggestions />
     </div>
   );
 }
