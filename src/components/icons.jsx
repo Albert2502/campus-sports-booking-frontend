@@ -45,11 +45,19 @@ export function ClipboardIcon(props) {
   );
 }
 
-export function LogoutIcon(props) {
+export function UserIcon(props) {
   return (
     <Icon {...props}>
-      <path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3" />
-      <path d="M10 16l-4-4 4-4M6 12h10" />
+      <circle cx="12" cy="8" r="4" />
+      <path d="M4 21a8 8 0 0 1 16 0" />
+    </Icon>
+  );
+}
+
+export function ChevronRightIcon(props) {
+  return (
+    <Icon {...props}>
+      <path d="m9 6 6 6-6 6" />
     </Icon>
   );
 }

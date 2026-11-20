@@ -1,13 +1,16 @@
 import { NavLink, Outlet } from 'react-router';
 
 import { useAuth } from '../auth/AuthContext';
-import { ClipboardIcon, HomeIcon, LogoutIcon } from '../components/icons';
+import { ClipboardIcon, HomeIcon, UserIcon } from '../components/icons';
 import { Avatar, Logo } from '../components/ui';
 
 const NAV_ITEMS = [
   { to: '/', label: 'Acasă', icon: HomeIcon, end: true },
   { to: '/rezervari', label: 'Rezervări', icon: ClipboardIcon },
 ];
+
+// The phone bar ends with Profil (Figma); on desktop the name links there.
+const PROFILE_ITEM = { to: '/profil', label: 'Profil', icon: UserIcon };
 
 function topNavClass({ isActive }) {
   return `py-1 text-white/85 hover:text-white ${
@@ -45,8 +48,13 @@ export default function UserLayout() {
             ))}
           </nav>
           <div className="ml-auto flex items-center gap-3">
-            <Avatar fullName={user.fullName} />
-            <span className="text-sm font-bold">{user.fullName}</span>
+            <NavLink
+              to={PROFILE_ITEM.to}
+              className="flex items-center gap-3 text-sm font-bold underline-offset-4 hover:underline"
+            >
+              <Avatar fullName={user.fullName} />
+              {user.fullName}
+            </NavLink>
             <button
               type="button"
               onClick={logout}
@@ -64,7 +72,7 @@ export default function UserLayout() {
         className="fixed inset-x-0 bottom-0 z-20 grid auto-cols-fr grid-flow-col bg-principala pb-[env(safe-area-inset-bottom)] md:hidden"
         aria-label="Navigare principală"
       >
-        {NAV_ITEMS.map((item) => (
+        {[...NAV_ITEMS, PROFILE_ITEM].map((item) => (
           <NavLink
             key={item.to}
             to={item.to}
@@ -75,14 +83,6 @@ export default function UserLayout() {
             {item.label}
           </NavLink>
         ))}
-        <button
-          type="button"
-          onClick={logout}
-          className="flex flex-col items-center gap-1 py-2 text-xs text-white/75"
-        >
-          <LogoutIcon className="size-6" />
-          Ieșire
-        </button>
       </nav>
     </div>
   );

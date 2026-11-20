@@ -56,3 +56,16 @@ export function monthlyRemainingText(user) {
     ? 'Ți-a rămas 1 rezervare luna aceasta.'
     : `Ți-au rămas ${remaining} rezervări luna aceasta.`;
 }
+
+/**
+ * The same numbers as a counter for the profile card ("1 din 1", Figma 09).
+ * @param {{bookingsThisMonth: number, monthlyLimit: ?number}} user
+ * @return {string}
+ */
+export function monthlyRemainingCounter(user) {
+  if (user.monthlyLimit === null) {
+    return `Rezervări luna aceasta: ${user.bookingsThisMonth} (fără limită)`;
+  }
+  const remaining = Math.max(user.monthlyLimit - user.bookingsThisMonth, 0);
+  return `Rezervări rămase luna aceasta: ${remaining} din ${user.monthlyLimit}`;
+}

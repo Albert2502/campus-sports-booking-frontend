@@ -195,6 +195,14 @@ The dev server proxies `/api` and `/uploads` to the backend (default `http://loc
    pitch behind the card; the repo has no licensed photo, so `.login-backdrop` in
    `src/styles/index.css` draws sky and a striped pitch in the same colours. Swap in the
    photo once the team has one. *Rejected:* a stock photo of unknown licence.
+4. **Profile shows only data the API has (2026-11-20, CB-48).** Screen 09 leaves out the
+   "Notificări prin email" switch (no column stores it) and, on a blocked account, the
+   "Plătește amenda" button (fine payments do not exist yet); both are `TODO(M2)`. The
+   no-show count comes from `noShowCount` in `GET /users/me`. *Rejected:* showing them as
+   disabled or non-working controls (fake UI); adding the setting to the database now.
+5. **Phone bar: "Profil" instead of "Ieșire" (2026-11-20, CB-48).** As in Figma, the last
+   item of the phone bar opens the profile, which has "Deconectare". On desktop the avatar
+   and name link to `/profil`; the "Ieșire" button stays in the top bar.
 
 ---
 
