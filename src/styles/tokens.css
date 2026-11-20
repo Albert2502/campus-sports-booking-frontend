@@ -1,0 +1,13 @@
+/* Design tokens from the Figma prototype (variables page "Componente"). */
+@theme {
+  --color-principala: #1d4ed8;
+  --color-principala-inchis: #1e40af;
+  --color-accent: #f97316;
+  --color-fundal: #f5f7fb;
+  --color-text: #111827;
+  --color-text-secundar: #6b7280;
+  --color-bordura: #11182724;
+  --color-suprafata: #ffffff;
+
+  --font-sans: 'Gentium Plus', Georgia, serif;
+}

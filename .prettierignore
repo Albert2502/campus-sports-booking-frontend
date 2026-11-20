@@ -1,0 +1,5 @@
+*.md
+.claude/
+docs/
+dist/
+package-lock.json

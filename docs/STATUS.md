@@ -3,27 +3,45 @@
 Where the project actually stands, kept up to date as milestones land and issues get fixed.
 `docs/DESIGN.md` is the decision record and changes rarely; this file changes often.
 
-_Last updated: 2026-11-13._
+_Last updated: 2026-11-20._
 
 ## Current work
 
-- **Task:** M0 planning docs, branch `feature/CB-1-planning-docs`.
-- **Files touched:** `docs/` (context files, openapi.yaml, erd.puml/png, DESIGN.md, STATUS.md), `AGENTS.md`, `README.md`.
-- **Done so far:** inputs copied into `docs/`; DESIGN.md written. Schema v3, seed, ERD and openapi.yaml were changed in the backend repo; `docs/openapi.yaml`, `docs/erd.*` here are copies of those.
-- **Next step:** PR https://github.com/Albert2502/campus-sports-booking-frontend/pull/1 is waiting for Alexandru's review and merge; after the merge, start M1 with `feature/CB-2-repo-setup`.
-- **Blockers / open questions:** none.
+- **Task:** login page and main page (DESIGN §5, 2026-11-20), branch
+  `feature/CB-11-login-and-home-pages`, against the backend branch
+  `feature/CB-7-login-and-home-api`. Steps, one commit each: CB-2 repo setup, CB-5 React
+  app, CB-11 screen 01 Autentificare (background, then the form and session), CB-12
+  protected routes, CB-16 screen 00 Bun venit (account card, then suggested facilities).
+- **Files touched:** `package.json`, `package-lock.json`, tool configs, `.gitignore`,
+  `index.html`, `public/`, `src/`, `README.md`, `docs/DESIGN.md`, `docs/STATUS.md`.
+- **Done so far:** CB-2 configs (Vite with the `/api` and `/uploads` proxy, ESLint,
+  Prettier, `.nvmrc`, `.gitignore`); CB-5 React app (Tailwind 4 with the Figma tokens,
+  Gentium Plus, react-router, TanStack Query, axios client, `src/api/errors.js`, user layout
+  with the top bar on desktop and the bottom bar on phones); CB-11 screen 01 (`/login`:
+  backdrop, React Hook Form + zod form with Romanian errors under the fields, API field
+  errors, token in `AuthContext` and localStorage, opens `/` after login); CB-12 protected
+  route (anonymous visitors go to `/login` and come back to the page they asked for; a
+  rejected token signs out) and the user menu with name, avatar and "Ieșire"; CB-16 welcome
+  card (greeting, account status, remaining bookings from `/users/me`, "Închiriază un
+  teren") and the first three facilities from `GET /facilities` as suggestions; run steps
+  in `README.md`.
+- **Next step:** one PR per repo into `main` for Albert's review.
+- **Blockers / open questions:** none; the branch is not pushed yet.
 
 ## Milestones
 
 | | Scope | Status |
 | --- | --- | --- |
-| **M0** | Planning: docs, schema v3, contract update, Jira sync (done 2026-11-12: CB-2, 4, 14, 15, 21, 30 edited; CB-44, 45, 46 created) | Work done 2026-11-12 (openapi also on Confluence "Document swagger", attachment v2); waiting for PR merge |
+| **M0** | Planning: docs, schema v3, contract update, Jira sync (done 2026-11-12: CB-2, 4, 14, 15, 21, 30 edited; CB-44, 45, 46 created) | Done 2026-11-13 (PR #1 merged; openapi also on Confluence "Document swagger", attachment v2) |
 | **M1** | Lab 6: CB-2 repo setup, CB-5 React app, CB-45 admin Facilities CRUD screen, CB-46 facility images UI | Not started |
 | **M2** | MVP frontend tasks from Jira CB (planned after M1) | Not started |
 
 ## Bugs found and fixed
 
-_None yet._
+- **Frontend, CB-12:** after signing in from a protected page, the app opened `/` instead
+  of that page. Cause: `LoginPage` redirected to `/` as soon as the user was set, before the
+  submit handler navigated to the saved page. Fix: one redirect, to `location.state.from`
+  or `/`.
 
 ## Open issues
 
@@ -33,7 +51,20 @@ _None yet._
 ## Still to do
 
 - `TODO(CB-12)`: `/admin` is open in Lab 6; CB-12 adds AdminRoute.
+- `TODO(CB-27)` in `src/App.jsx`: "Rezervări" in the menu opens a "not ready" page until
+  screen 06 exists.
+- `TODO(CB-17)` in `src/App.jsx`: "Închiriază un teren" on screen 00 opens `/calendar`, a
+  "not ready" page until screen 02 exists.
+- `TODO(CB-19)` in `src/App.jsx`: "Închiriază" on a suggested facility opens
+  `/facilitati/:facilityId`, a "not ready" page until screen 03 exists.
+- After login every role lands on screen 00, the admin too; the admin area and its menu
+  come with CB-12 (AdminRoute) and CB-45.
+- Frontend tests (Vitest, React Testing Library, MSW) come with CB-41; this branch was
+  checked by hand in the browser.
 
 ## Not yet verified
 
 - Figma frames were read through screenshots and layer names only (figma.com is blocked by the container network), so exact spacing and sizes still need checking with the Figma inspector during CB-5.
+- Screens 00 and 01 were compared with the Figma frames by eye at 390 px and 1440 px, not
+  with the inspector. The seed facilities have no images, so the cards show a placeholder
+  until images are uploaded (CB-44, CB-46).
