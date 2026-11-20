@@ -210,6 +210,14 @@ The dev server proxies `/api` and `/uploads` to the backend (default `http://loc
    72-byte limit stays on the server, whose field messages are shown under the fields. The
    login form's field became `src/components/TextField.jsx` (optional hint, label class)
    so the password screens share it. *Rejected:* a copy of the field in every form.
+7. **Password reset screens in the login style (2026-11-20, CB-51).** No Figma frames
+   either: "Ai uitat parola?" on screen 01 opens `/parola-uitata`, and the emailed link opens
+   `/resetare-parola?token=...` (the path the backend puts in the email). Both use the login
+   card (`src/components/AuthCard.jsx`, extracted from screen 01). After a request the page
+   shows the same text for every address, as the API does; after a reset the user lands on
+   login with a notice. An expired or used link (410) shows a message and "Cere un link nou".
+   *Rejected:* signing the user in right after the reset (the API returns no token, and a
+   fresh login confirms the new password).
 
 ---
 

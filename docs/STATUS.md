@@ -7,16 +7,19 @@ _Last updated: 2026-11-20._
 
 ## Current work
 
-- **Task:** CB-50 change-password screen, branch `feature/CB-50-change-password-page`
-  (stacked on CB-48, PR #3): `/profil/parola` with current, new and repeated password,
-  against `POST /users/me/password` (backend PR #4). The login form's field moves to a shared
-  `TextField` for this and the reset screens (CB-51).
-- **Files touched:** `src/components/TextField.jsx`, `src/pages/LoginPage.jsx`,
-  `src/pages/ChangePasswordPage.jsx` (+ test), `src/api/users.js`, `src/api/errors.js`,
-  `src/App.jsx`, `docs/openapi.yaml`, `docs/STATUS.md`.
-- **Done so far:** screen and route, shared `TextField`, tests (login + change password),
-  checked in the browser against the backend at 390/1440 (DESIGN §5, 6).
-- **Next step:** PR for Alexandru's review; then CB-51 on `feature/CB-51-password-reset-pages`.
+- **Task:** CB-51 password reset screens, branch `feature/CB-51-password-reset-pages`
+  (stacked on CB-50, PR #4): "Ai uitat parola?" on screen 01 → `/parola-uitata` (email,
+  `POST /auth/password-reset`) and `/resetare-parola?token=...` from the email (new
+  password, `POST /auth/password-reset/confirm`), then back to login with a notice. Backend
+  PR #5. The login card layout moves to a shared `AuthCard`.
+- **Files touched:** `src/components/AuthCard.jsx`, `src/pages/LoginPage.jsx`,
+  `src/pages/ForgotPasswordPage.jsx`, `src/pages/ResetPasswordPage.jsx` (+ tests),
+  `src/api/auth.js`, `src/api/errors.js`, `src/App.jsx`, `docs/openapi.yaml`,
+  `docs/DESIGN.md`, `docs/STATUS.md`.
+- **Done so far:** both screens, login link and notice, shared `AuthCard`; 26 tests green;
+  full flow checked in the browser against the backend (reset, sign-in with the new password,
+  reused link refused) at 390/1440 (DESIGN §5, 7).
+- **Next step:** PR for Alexandru's review.
 - **Blockers / open questions:** none.
 
 ## Milestones
@@ -58,6 +61,8 @@ _Last updated: 2026-11-20._
 
 ## Not yet verified
 
+- The reset link was opened from a token made locally, not from a real email (the dev
+  container cannot send email); the backend PR #5 lists how to check Ethereal delivery.
 - Figma frames were read through screenshots and layer names only (figma.com is blocked by the container network), so exact spacing and sizes still need checking with the Figma inspector during CB-5.
 - Screen 09 (and 09b, blocked account) was compared with Figma by eye at 390 px and 1440 px,
   with the seed accounts `ana@campus.test` and `dan@campus.test`.
