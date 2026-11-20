@@ -7,6 +7,10 @@ export default defineConfig(({ mode }) => {
   const backend = env.VITE_BACKEND_URL || 'http://localhost:3000';
   return {
     plugins: [react(), tailwindcss()],
+    test: {
+      environment: 'jsdom',
+      setupFiles: ['./src/test/setup.js'],
+    },
     server: {
       port: 5173,
       // Same-origin calls: /api and the uploaded images go to the backend.

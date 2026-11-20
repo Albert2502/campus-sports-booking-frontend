@@ -7,26 +7,18 @@ _Last updated: 2026-11-20._
 
 ## Current work
 
-- **Task:** login page and main page (DESIGN §5, 2026-11-20), branch
-  `feature/CB-11-login-and-home-pages`, against the backend branch
-  `feature/CB-7-login-and-home-api`. Steps, one commit each: CB-2 repo setup, CB-5 React
-  app, CB-11 screen 01 Autentificare (background, then the form and session), CB-12
-  protected routes, CB-16 screen 00 Bun venit (account card, then suggested facilities).
-- **Files touched:** `package.json`, `package-lock.json`, tool configs, `.gitignore`,
-  `index.html`, `public/`, `src/`, `README.md`, `docs/DESIGN.md`, `docs/STATUS.md`.
-- **Done so far:** CB-2 configs (Vite with the `/api` and `/uploads` proxy, ESLint,
-  Prettier, `.nvmrc`, `.gitignore`); CB-5 React app (Tailwind 4 with the Figma tokens,
-  Gentium Plus, react-router, TanStack Query, axios client, `src/api/errors.js`, user layout
-  with the top bar on desktop and the bottom bar on phones); CB-11 screen 01 (`/login`:
-  backdrop, React Hook Form + zod form with Romanian errors under the fields, API field
-  errors, token in `AuthContext` and localStorage, opens `/` after login); CB-12 protected
-  route (anonymous visitors go to `/login` and come back to the page they asked for; a
-  rejected token signs out) and the user menu with name, avatar and "Ieșire"; CB-16 welcome
-  card (greeting, account status, remaining bookings from `/users/me`, "Închiriază un
-  teren") and the first three facilities from `GET /facilities` as suggestions; run steps
-  in `README.md`.
-- **Next step:** one PR per repo into `main` for Albert's review.
-- **Blockers / open questions:** none; the branch is not pushed yet.
+- **Task:** CB-48 screen 09 Profil, branch `feature/CB-48-profile-page`: route `/profil`,
+  profile data and account status from `GET /users/me` (incl. `noShowCount`, backend PR #3),
+  "Schimbă parola" link, "Deconectare"; Vitest + React Testing Library + MSW setup. Next in
+  the stack: CB-50 change-password screen, then CB-51 password reset screens.
+- **Files touched:** `package.json`, `package-lock.json`, `vite.config.js`, `src/test/`,
+  `src/App.jsx`, `src/layouts/UserLayout.jsx`, `src/components/icons.jsx`, `src/lib/format.js`,
+  `src/pages/ProfilePage.jsx`, `src/pages/ProfilePage.test.jsx`, `docs/openapi.yaml` (synced
+  with the backend: `noShowCount`), `docs/DESIGN.md`, `docs/STATUS.md`.
+- **Done so far:** screen 09/09b at `/profil` (8 tests green, checked at 390/1440 against
+  Figma); Vitest + RTL + MSW setup; Profil in the phone bar.
+- **Next step:** PR for Alexandru's review; then CB-50 on `feature/CB-50-change-password-page`.
+- **Blockers / open questions:** none.
 
 ## Milestones
 
@@ -59,12 +51,19 @@ _Last updated: 2026-11-20._
   `/facilitati/:facilityId`, a "not ready" page until screen 03 exists.
 - After login every role lands on screen 00, the admin too; the admin area and its menu
   come with CB-12 (AdminRoute) and CB-45.
-- Frontend tests (Vitest, React Testing Library, MSW) come with CB-41; this branch was
-  checked by hand in the browser.
+- `TODO(CB-50)` in `src/App.jsx`: "Schimbă parola" on the profile opens a "not ready" page
+  until the change-password screen exists.
+- `TODO(M2)` in `src/pages/ProfilePage.jsx`: the "Plătește amenda" button on a blocked
+  account (needs fine payments) and the "Notificări prin email" switch (nothing stores the
+  setting yet); left out instead of shown as fake controls (DESIGN §5, 4).
+- CB-41: the Vitest + React Testing Library + MSW setup landed with CB-48; the full booking
+  flow tests are still to write. Screens 00 and 01 have no automated tests yet.
 
 ## Not yet verified
 
 - Figma frames were read through screenshots and layer names only (figma.com is blocked by the container network), so exact spacing and sizes still need checking with the Figma inspector during CB-5.
+- Screen 09 (and 09b, blocked account) was compared with Figma by eye at 390 px and 1440 px,
+  with the seed accounts `ana@campus.test` and `dan@campus.test`.
 - Screens 00 and 01 were compared with the Figma frames by eye at 390 px and 1440 px, not
   with the inspector. The seed facilities have no images, so the cards show a placeholder
   until images are uploaded (CB-44, CB-46).
