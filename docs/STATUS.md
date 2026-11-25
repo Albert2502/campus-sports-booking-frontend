@@ -15,8 +15,10 @@ _Last updated: 2026-11-25._
   imagini" and, after the first save, the drawer stays open in edit mode (DESIGN §5, 10).
 - **Files touched:** `src/api/facilities.js`, `src/pages/admin/` (drawer, new images
   section, page), tests, `docs/DESIGN.md`, `docs/STATUS.md`.
-- **Done so far:** nothing yet.
-- **Next step:** implementation, tests, browser check against backend CB-44.
+- **Done so far:** section, uploads, previews, delete, create → edit mode; 67 tests green;
+  checked in the browser against backend CB-44 at 390/1440 (7 files: 5 uploaded, the 6th
+  refused by the limit, a text file refused by type; delete; list thumbnail updated).
+- **Next step:** PR for Alexandru's review (stacked on PR #7).
 - **Blockers / open questions:** none.
 
 ## Milestones
@@ -43,8 +45,6 @@ _Last updated: 2026-11-25._
 
 ## Still to do
 
-- `TODO(CB-46)` in `src/pages/admin/FacilityDrawer.jsx`: the "Imagini" section of the
-  drawer (upload, previews, "× Șterge").
 - `TODO(polish)` in `src/pages/admin/useModalBehavior.js`: the drawer and the confirmation
   dialog do not trap focus or give it back to the button that opened them; Escape closes the
   drawer without asking about unsaved changes.
@@ -65,6 +65,9 @@ _Last updated: 2026-11-25._
 
 ## Not yet verified
 
+- Facility images (CB-46): closing the drawer during a multi-file upload stops the files not
+  sent yet (the one in flight still finishes); not checked in the browser. Dropping a file
+  outside the drop zone lets the browser open it.
 - Admin Facilities (CB-45) compared with the Figma frames by eye at 390 and 1440 px, not with
   the inspector. The time inputs showed AM/PM in the headless browser of the dev container
   (its system locale); a browser set to Romanian should show 24-hour times, not checked.
