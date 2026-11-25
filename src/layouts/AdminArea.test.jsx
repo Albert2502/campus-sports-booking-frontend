@@ -31,7 +31,11 @@ const STUDENT = {
 };
 
 function answerMe(user) {
-  server.use(http.get('/api/v1/users/me', () => HttpResponse.json(user)));
+  server.use(
+    http.get('/api/v1/users/me', () => HttpResponse.json(user)),
+    http.get('/api/v1/facilities', () => HttpResponse.json([])),
+    http.get('/api/v1/sports', () => HttpResponse.json([])),
+  );
 }
 
 describe('admin area', () => {

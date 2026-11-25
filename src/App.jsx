@@ -9,6 +9,7 @@ import LoginPage from './pages/LoginPage';
 import ChangePasswordPage from './pages/ChangePasswordPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import NotReadyPage from './pages/NotReadyPage';
+import FacilitiesPage from './pages/admin/FacilitiesPage';
 import ProfilePage from './pages/ProfilePage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 
@@ -56,11 +57,7 @@ export default function App() {
         }
       >
         <Route index element={<Navigate to="facilitati" replace />} />
-        {/* TODO(CB-45): admin Facilities screen. */}
-        <Route
-          path="facilitati"
-          element={<NotReadyPage title="Gestionare facilități" />}
-        />
+        <Route path="facilitati" element={<FacilitiesPage />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
