@@ -7,21 +7,16 @@ _Last updated: 2026-11-25._
 
 ## Current work
 
-- **Task:** CB-45 admin Facilities screen, branch `feature/CB-45-admin-facilities` (stacked
-  on CB-12, PR #6): `/admin/facilitati` per the Figma frames "Admin – Facilități": table on
-  desktop, cards on phones, search (name + location, diacritics ignored), Tip and Stare
-  filters, loading / empty / error states, add/edit drawer (full screen on phones) with
-  general info, price, minimum duration, the "Program pe zile" switch with 7 day rows,
-  amenities, status and maintenance note; Dezactivează / Reactivează with confirmation;
-  toast "Facilitatea a fost salvată". Needs backend PR #6 (CB-14). Images come with CB-46.
-- **Files touched:** `src/api/facilities.js`, `src/api/sports.js`, `src/pages/admin/`,
-  `src/components/`, `src/App.jsx`, tests, `docs/openapi.yaml` (synced from the backend),
-  `docs/DESIGN.md`, `docs/STATUS.md`.
-- **Done so far:** contract synced; schedule decisions taken (DESIGN §5, 9); list, filters,
-  states, drawer, status dialog, toast; 59 tests green; checked in the browser against the
-  backend at 390/1440 (create, edit to maintenance with a note, deactivate; database rows
-  checked).
-- **Next step:** PR for Alexandru's review (stacked on PR #6); then CB-46 images in the drawer.
+- **Task:** CB-46 facility images in the admin drawer, branch
+  `feature/CB-46-facility-images-ui` (stacked on CB-45, PR #7): "Imagini" section with a
+  drop zone / file picker (JPG, PNG), one `POST /facilities/{id}/images` per file, previews
+  with "× Șterge" (`DELETE`); server messages shown per file (size, type, the 5-image limit).
+  Images exist only for a saved facility, so "Adaugă" shows "Salvează facilitatea ca să adaugi
+  imagini" and, after the first save, the drawer stays open in edit mode (DESIGN §5, 10).
+- **Files touched:** `src/api/facilities.js`, `src/pages/admin/` (drawer, new images
+  section, page), tests, `docs/DESIGN.md`, `docs/STATUS.md`.
+- **Done so far:** nothing yet.
+- **Next step:** implementation, tests, browser check against backend CB-44.
 - **Blockers / open questions:** none.
 
 ## Milestones
