@@ -17,8 +17,11 @@ _Last updated: 2026-11-25._
 - **Files touched:** `src/api/facilities.js`, `src/api/sports.js`, `src/pages/admin/`,
   `src/components/`, `src/App.jsx`, tests, `docs/openapi.yaml` (synced from the backend),
   `docs/DESIGN.md`, `docs/STATUS.md`.
-- **Done so far:** contract synced; schedule decisions taken (DESIGN §5, 9).
-- **Next step:** API module, list, drawer, tests, browser check against backend CB-14.
+- **Done so far:** contract synced; schedule decisions taken (DESIGN §5, 9); list, filters,
+  states, drawer, status dialog, toast; 59 tests green; checked in the browser against the
+  backend at 390/1440 (create, edit to maintenance with a note, deactivate; database rows
+  checked).
+- **Next step:** PR for Alexandru's review (stacked on PR #6); then CB-46 images in the drawer.
 - **Blockers / open questions:** none.
 
 ## Milestones
@@ -38,12 +41,21 @@ _Last updated: 2026-11-25._
 
 ## Open issues
 
+- `docs/openapi.yaml` (backend): `location` is not marked `nullable` in `Facility` and
+  `FacilityInput`, but the API accepts `null` / `''` and returns `null` for an empty location;
+  the admin form sends `null`. To fix in the backend contract and sync.
 - `docs/openapi.yaml` has 5 lint errors and 6 warnings under `redocly lint` (`nullable-type-sibling` ×3, `struct` ×2, missing 4XX on 4 operations, no license, example server). They were already in the team's original file; the v3 edits added none. To fix in a separate change once the team agrees.
 
 ## Still to do
 
-- `TODO(CB-45)` in `src/App.jsx`: `/admin/facilitati` is a "not ready" page until the
-  admin Facilities screen exists.
+- `TODO(CB-46)` in `src/pages/admin/FacilityDrawer.jsx`: the "Imagini" section of the
+  drawer (upload, previews, "× Șterge").
+- `TODO(polish)` in `src/pages/admin/useModalBehavior.js`: the drawer and the confirmation
+  dialog do not trap focus or give it back to the button that opened them; Escape closes the
+  drawer without asking about unsaved changes.
+- The production bundle is over Vite's 500 kB warning (520 kB, 163 kB gzipped) since the
+  admin screen; splitting the admin routes with `React.lazy` would fix it. Not urgent for a
+  local-only app.
 - `TODO(CB-27)` in `src/App.jsx`: "Rezervări" in the menu opens a "not ready" page until
   screen 06 exists.
 - `TODO(CB-17)` in `src/App.jsx`: "Închiriază un teren" on screen 00 opens `/calendar`, a
@@ -58,6 +70,9 @@ _Last updated: 2026-11-25._
 
 ## Not yet verified
 
+- Admin Facilities (CB-45) compared with the Figma frames by eye at 390 and 1440 px, not with
+  the inspector. The time inputs showed AM/PM in the headless browser of the dev container
+  (its system locale); a browser set to Romanian should show 24-hour times, not checked.
 - The reset link was opened from a token made locally, not from a real email (the dev
   container cannot send email); the backend PR #5 lists how to check Ethereal delivery.
 - Figma frames were read through screenshots and layer names only (figma.com is blocked by the container network), so exact spacing and sizes still need checking with the Figma inspector during CB-5.
