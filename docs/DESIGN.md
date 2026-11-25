@@ -231,6 +231,14 @@ The dev server proxies `/api` and `/uploads` to the backend (default `http://loc
    the API refuses their admin requests anyway. *Rejected:* sending the admin straight to
    `/admin` after login (the admin also books facilities); redirecting non-admins to `/`
    without a message.
+9. **Opening hours in the admin form and list (2026-11-25, CB-45).** The API takes either
+   all 7 days or no schedule (`hours: null`, no limit). The drawer adds a "Program pe zile"
+   switch above the Figma day rows: off sends `null`, on shows the 7 rows (each with an
+   "Închis" switch and the opening and closing times). A new facility starts with it on and
+   08:00–22:00 every day. The list's "Program" column shows the range when every open day has
+   the same hours (closed days ignored), "Program variabil" when they differ, "Închis" when
+   every day is closed, and "Fără restricție" with no schedule. *Rejected:* always sending 7
+   days (no way to set "no limit" from the UI); showing Monday's hours (misleading).
 
 ---
 

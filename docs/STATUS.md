@@ -7,17 +7,18 @@ _Last updated: 2026-11-25._
 
 ## Current work
 
-- **Task:** CB-12 admin area, branch `feature/CB-12-admin-area`: `AdminRoute` (non-admins
-  see "Acces interzis"), `AdminLayout` as in Figma (blue sidebar on desktop, bottom bar on
-  phones) with Facilități, "‹ Înapoi la aplicație" and Ieșire, `/admin` → `/admin/facilitati`
-  (a "not ready" page until CB-45), and an "Administrare" entry in the user menu for the
-  admin only. The admin still lands on screen 00 after login.
-- **Files touched:** `src/App.jsx`, `src/components/AdminRoute.jsx`,
-  `src/layouts/AdminLayout.jsx`, `src/layouts/UserLayout.jsx`, `src/components/icons.jsx`,
-  `src/pages/ForbiddenPage.jsx`, tests, `docs/DESIGN.md`, `docs/STATUS.md`.
-- **Done so far:** layout, guard, menu entry; 31 tests green; checked in the browser against
-  the backend at 390/1440 (admin: menu entry, sidebar, phone bar; student: "Acces interzis").
-- **Next step:** PR for Alexandru's review; then CB-45 admin Facilities screen (stacked).
+- **Task:** CB-45 admin Facilities screen, branch `feature/CB-45-admin-facilities` (stacked
+  on CB-12, PR #6): `/admin/facilitati` per the Figma frames "Admin – Facilități": table on
+  desktop, cards on phones, search (name + location, diacritics ignored), Tip and Stare
+  filters, loading / empty / error states, add/edit drawer (full screen on phones) with
+  general info, price, minimum duration, the "Program pe zile" switch with 7 day rows,
+  amenities, status and maintenance note; Dezactivează / Reactivează with confirmation;
+  toast "Facilitatea a fost salvată". Needs backend PR #6 (CB-14). Images come with CB-46.
+- **Files touched:** `src/api/facilities.js`, `src/api/sports.js`, `src/pages/admin/`,
+  `src/components/`, `src/App.jsx`, tests, `docs/openapi.yaml` (synced from the backend),
+  `docs/DESIGN.md`, `docs/STATUS.md`.
+- **Done so far:** contract synced; schedule decisions taken (DESIGN §5, 9).
+- **Next step:** API module, list, drawer, tests, browser check against backend CB-14.
 - **Blockers / open questions:** none.
 
 ## Milestones
