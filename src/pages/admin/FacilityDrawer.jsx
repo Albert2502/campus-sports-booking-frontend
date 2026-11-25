@@ -17,6 +17,7 @@ import {
 } from './facilityForm';
 import HoursFields from './HoursFields';
 import { AmenityChips, StatusSegments } from './FacilityChoices';
+import FacilityImages from './FacilityImages';
 import useModalBehavior from './useModalBehavior';
 
 function Section({ title, children }) {
@@ -30,11 +31,19 @@ function Section({ title, children }) {
 
 /**
  * Right-side panel (full screen on phones) to add a facility or, with
- * `facility`, to edit it. Mounted only while open.
+ * `facility`, to edit it. Mounted only while open; the parent re-keys it when
+ * a created facility turns the drawer into edit mode.
  * @param {{facility: ?Object, sports: Array<Object>, onClose: function,
- *     onSaved: function}} props
+ *     onSaved: function(Object, {created: boolean}),
+ *     onImagesChanged: function}} props
  */
-export default function FacilityDrawer({ facility, sports, onClose, onSaved }) {
+export default function FacilityDrawer({
+  facility,
+  sports,
+  onClose,
+  onSaved,
+  onImagesChanged,
+}) {
   const form = useForm({
     resolver: zodResolver(facilitySchema),
     defaultValues: toFormValues(facility),
@@ -53,7 +62,7 @@ export default function FacilityDrawer({ facility, sports, onClose, onSaved }) {
   const save = useMutation({
     mutationFn: (body) =>
       facility ? updateFacility(facility.id, body) : createFacility(body),
-    onSuccess: onSaved,
+    onSuccess: (result) => onSaved(result, { created: !facility }),
     onError: (error) => {
       const unmapped = [];
       for (const [path, message] of Object.entries(fieldErrors(error))) {
@@ -144,7 +153,18 @@ export default function FacilityDrawer({ facility, sports, onClose, onSaved }) {
                 error={errors.description?.message}
               />
             </Section>
-            {/* TODO(CB-46): "Imagini" section (upload, previews, × Șterge). */}
+            <Section title="Imagini">
+              {facility ? (
+                <FacilityImages
+                  facility={facility}
+                  onChanged={onImagesChanged}
+                />
+              ) : (
+                <p className="text-text-secundar">
+                  Salvează facilitatea ca să adaugi imagini.
+                </p>
+              )}
+            </Section>
             <Section title="Preț și program">
               <AdminTextField
                 id="facility-price"

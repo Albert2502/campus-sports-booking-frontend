@@ -220,7 +220,9 @@ describe('add drawer', () => {
       status: 'inactive',
     });
     expect(body).not.toHaveProperty('maintenanceNote');
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(
+      screen.getByRole('dialog', { name: 'Editează facilitate' }),
+    ).toBeInTheDocument();
     expect(
       (await table()).getByRole('row', { name: /Teren nou/ }),
     ).toBeInTheDocument();
