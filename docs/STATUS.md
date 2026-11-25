@@ -3,23 +3,21 @@
 Where the project actually stands, kept up to date as milestones land and issues get fixed.
 `docs/DESIGN.md` is the decision record and changes rarely; this file changes often.
 
-_Last updated: 2026-11-20._
+_Last updated: 2026-11-25._
 
 ## Current work
 
-- **Task:** CB-51 password reset screens, branch `feature/CB-51-password-reset-pages`
-  (stacked on CB-50, PR #4): "Ai uitat parola?" on screen 01 → `/parola-uitata` (email,
-  `POST /auth/password-reset`) and `/resetare-parola?token=...` from the email (new
-  password, `POST /auth/password-reset/confirm`), then back to login with a notice. Backend
-  PR #5. The login card layout moves to a shared `AuthCard`.
-- **Files touched:** `src/components/AuthCard.jsx`, `src/pages/LoginPage.jsx`,
-  `src/pages/ForgotPasswordPage.jsx`, `src/pages/ResetPasswordPage.jsx` (+ tests),
-  `src/api/auth.js`, `src/api/errors.js`, `src/App.jsx`, `docs/openapi.yaml`,
-  `docs/DESIGN.md`, `docs/STATUS.md`.
-- **Done so far:** both screens, login link and notice, shared `AuthCard`; 26 tests green;
-  full flow checked in the browser against the backend (reset, sign-in with the new password,
-  reused link refused) at 390/1440 (DESIGN §5, 7).
-- **Next step:** PR for Alexandru's review.
+- **Task:** CB-12 admin area, branch `feature/CB-12-admin-area`: `AdminRoute` (non-admins
+  see "Acces interzis"), `AdminLayout` as in Figma (blue sidebar on desktop, bottom bar on
+  phones) with Facilități, "‹ Înapoi la aplicație" and Ieșire, `/admin` → `/admin/facilitati`
+  (a "not ready" page until CB-45), and an "Administrare" entry in the user menu for the
+  admin only. The admin still lands on screen 00 after login.
+- **Files touched:** `src/App.jsx`, `src/components/AdminRoute.jsx`,
+  `src/layouts/AdminLayout.jsx`, `src/layouts/UserLayout.jsx`, `src/components/icons.jsx`,
+  `src/pages/ForbiddenPage.jsx`, tests, `docs/DESIGN.md`, `docs/STATUS.md`.
+- **Done so far:** layout, guard, menu entry; 31 tests green; checked in the browser against
+  the backend at 390/1440 (admin: menu entry, sidebar, phone bar; student: "Acces interzis").
+- **Next step:** PR for Alexandru's review; then CB-45 admin Facilities screen (stacked).
 - **Blockers / open questions:** none.
 
 ## Milestones
@@ -40,19 +38,17 @@ _Last updated: 2026-11-20._
 ## Open issues
 
 - `docs/openapi.yaml` has 5 lint errors and 6 warnings under `redocly lint` (`nullable-type-sibling` ×3, `struct` ×2, missing 4XX on 4 operations, no license, example server). They were already in the team's original file; the v3 edits added none. To fix in a separate change once the team agrees.
-- Remote branches `claude/gracious-goodall-oqd3wc` (backend) and `claude/admiring-gates-0gfcp0` (frontend) are leftovers of an earlier session; their content is already on this branch. They have to be deleted on GitHub by hand (deletion from the dev container is refused).
 
 ## Still to do
 
-- `TODO(CB-12)`: `/admin` is open in Lab 6; CB-12 adds AdminRoute.
+- `TODO(CB-45)` in `src/App.jsx`: `/admin/facilitati` is a "not ready" page until the
+  admin Facilities screen exists.
 - `TODO(CB-27)` in `src/App.jsx`: "Rezervări" in the menu opens a "not ready" page until
   screen 06 exists.
 - `TODO(CB-17)` in `src/App.jsx`: "Închiriază un teren" on screen 00 opens `/calendar`, a
   "not ready" page until screen 02 exists.
 - `TODO(CB-19)` in `src/App.jsx`: "Închiriază" on a suggested facility opens
   `/facilitati/:facilityId`, a "not ready" page until screen 03 exists.
-- After login every role lands on screen 00, the admin too; the admin area and its menu
-  come with CB-12 (AdminRoute) and CB-45.
 - `TODO(M2)` in `src/pages/ProfilePage.jsx`: the "Plătește amenda" button on a blocked
   account (needs fine payments) and the "Notificări prin email" switch (nothing stores the
   setting yet); left out instead of shown as fake controls (DESIGN §5, 4).

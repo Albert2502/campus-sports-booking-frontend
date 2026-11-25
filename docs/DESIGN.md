@@ -161,8 +161,8 @@ The dev server proxies `/api` and `/uploads` to the backend (default `http://loc
   "Facilitatea a fost salvată"; image upload with previews and "× Șterge"; loading, empty and
   error states.
 - **Admin layout as in Figma** (blue sidebar on desktop, bottom bar on mobile); in Lab 6 only
-  "Facilități" is shown, the other items appear with their tasks. No auth yet: `TODO(CB-12)`
-  AdminRoute.
+  "Facilități" is shown, the other items appear with their tasks. Guarded by `AdminRoute`
+  (§5, 8).
 
 ---
 
@@ -218,6 +218,19 @@ The dev server proxies `/api` and `/uploads` to the backend (default `http://loc
    login with a notice. An expired or used link (410) shows a message and "Cere un link nou".
    *Rejected:* signing the user in right after the reset (the API returns no token, and a
    fresh login confirms the new password).
+8. **Admin area next to the user pages (2026-11-25, CB-12).** The admin keeps the student
+   and teacher pages and lands on screen 00 after login, like everybody else; the user menu
+   gets an "Administrare" entry (admin only) that opens `/admin`, which goes to
+   `/admin/facilitati`. `AdminLayout` follows the Figma frames "Admin – Facilități": blue
+   sidebar on desktop, blue bottom bar on phones, the active item in the accent colour. Figma
+   has no way back or out of the admin area, so both get "‹ Înapoi la aplicație" (to `/`)
+   and "Ieșire" (sidebar bottom on desktop; last two items of the phone bar, where the
+   "‹" becomes an arrow icon like the other items). Only
+   "Facilități" is listed; Rapoarte, Rezervări and Utilizatori și reguli come with their
+   tasks. A signed-in non-admin on an `/admin` page sees "Acces interzis" (`AdminRoute`);
+   the API refuses their admin requests anyway. *Rejected:* sending the admin straight to
+   `/admin` after login (the admin also books facilities); redirecting non-admins to `/`
+   without a message.
 
 ---
 
