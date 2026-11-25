@@ -61,3 +61,30 @@ export function ChevronRightIcon(props) {
     </Icon>
   );
 }
+
+export function GridIcon(props) {
+  return (
+    <Icon {...props}>
+      <rect x="4" y="4" width="6" height="6" rx="1" />
+      <rect x="14" y="4" width="6" height="6" rx="1" />
+      <rect x="4" y="14" width="6" height="6" rx="1" />
+      <rect x="14" y="14" width="6" height="6" rx="1" />
+    </Icon>
+  );
+}
+
+export function ArrowLeftIcon(props) {
+  return (
+    <Icon {...props}>
+      <path d="M19 12H5M11 6l-6 6 6 6" />
+    </Icon>
+  );
+}
+
+export function LogoutIcon(props) {
+  return (
+    <Icon {...props}>
+      <path d="M10 4H5v16h5M14 8l4 4-4 4M18 12H9" />
+    </Icon>
+  );
+}

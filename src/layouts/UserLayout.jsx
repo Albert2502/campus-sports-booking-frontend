@@ -1,13 +1,21 @@
 import { NavLink, Outlet } from 'react-router';
 
 import { useAuth } from '../auth/AuthContext';
-import { ClipboardIcon, HomeIcon, UserIcon } from '../components/icons';
+import {
+  ClipboardIcon,
+  GridIcon,
+  HomeIcon,
+  UserIcon,
+} from '../components/icons';
 import { Avatar, Logo } from '../components/ui';
 
 const NAV_ITEMS = [
   { to: '/', label: 'Acasă', icon: HomeIcon, end: true },
   { to: '/rezervari', label: 'Rezervări', icon: ClipboardIcon },
 ];
+
+// Shown to the admin only; the admin keeps the user pages too.
+const ADMIN_ITEM = { to: '/admin', label: 'Administrare', icon: GridIcon };
 
 // The phone bar ends with Profil (Figma); on desktop the name links there.
 const PROFILE_ITEM = { to: '/profil', label: 'Profil', icon: UserIcon };
@@ -30,13 +38,15 @@ function bottomNavClass({ isActive }) {
  */
 export default function UserLayout() {
   const { user, logout } = useAuth();
+  const navItems =
+    user.role === 'admin' ? [...NAV_ITEMS, ADMIN_ITEM] : NAV_ITEMS;
   return (
     <div className="min-h-dvh pb-24 md:pb-0">
       <header className="hidden bg-principala text-white md:block">
         <div className="mx-auto flex h-16 max-w-6xl items-center gap-10 px-6">
           <Logo inverted />
           <nav className="flex gap-7 text-sm" aria-label="Navigare principală">
-            {NAV_ITEMS.map((item) => (
+            {navItems.map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
@@ -72,7 +82,7 @@ export default function UserLayout() {
         className="fixed inset-x-0 bottom-0 z-20 grid auto-cols-fr grid-flow-col bg-principala pb-[env(safe-area-inset-bottom)] md:hidden"
         aria-label="Navigare principală"
       >
-        {[...NAV_ITEMS, PROFILE_ITEM].map((item) => (
+        {[...navItems, PROFILE_ITEM].map((item) => (
           <NavLink
             key={item.to}
             to={item.to}

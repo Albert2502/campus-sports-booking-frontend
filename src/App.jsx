@@ -1,6 +1,8 @@
 import { Navigate, Route, Routes } from 'react-router';
 
+import AdminRoute from './components/AdminRoute';
 import ProtectedRoute from './components/ProtectedRoute';
+import AdminLayout from './layouts/AdminLayout';
 import UserLayout from './layouts/UserLayout';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
@@ -41,6 +43,23 @@ export default function App() {
         <Route
           path="rezervari"
           element={<NotReadyPage title="Rezervările mele" />}
+        />
+      </Route>
+      <Route
+        path="admin"
+        element={
+          <ProtectedRoute>
+            <AdminRoute>
+              <AdminLayout />
+            </AdminRoute>
+          </ProtectedRoute>
+        }
+      >
+        <Route index element={<Navigate to="facilitati" replace />} />
+        {/* TODO(CB-45): admin Facilities screen. */}
+        <Route
+          path="facilitati"
+          element={<NotReadyPage title="Gestionare facilități" />}
         />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
