@@ -218,6 +218,30 @@ The dev server proxies `/api` and `/uploads` to the backend (default `http://loc
    login with a notice. An expired or used link (410) shows a message and "Cere un link nou".
    *Rejected:* signing the user in right after the reset (the API returns no token, and a
    fresh login confirms the new password).
+11. **Screen 02 Calendar și filtre (2026-11-26, CB-17).** Numbered after §5, 8–10, which are
+    on the open admin branches. Built from the Figma frames "02 Acasă – mobil / desktop"
+    against backend CB-15 (`GET /slots`, `GET /sports`); `GET /facilities` (shared with
+    screen 00) adds the capacity and the price per hour.
+    - **A rolling week from today** in the day strip, instead of Figma's Monday–Sunday
+      week, so no past day is ever offered and the strip works before the date panel (CB-18)
+      exists. The phone header shows the range ("26 noiembrie – 2 decembrie 2026"), the
+      desktop one the chosen day, as in Figma.
+    - **Filters: sport and time range only**, the two the API takes. The ranges split the
+      day in four (08–12, 12–16, 16–20, 20–24; Figma shows only "16:00–20:00"); "20:00–24:00"
+      is sent as `toTime=23:59`, the API's last minute. Desktop shows chip lists in a side
+      card, phones chip-shaped menus (native `select`, as Figma's chips open choices).
+      "Preț / oră" and "Dotări" from Figma are left out: the API cannot filter by them and
+      Figma does not show their options.
+    - **Slot states:** free (white, can be chosen), selected (blue), occupied and closed
+      (grey, disabled; the legend says "Ocupat / închis" because the API's `closed` has no
+      Figma colour). "Prioritar" is left out: no API field says a slot is a priority one.
+    - Phones show four slots per facility and "+N intervale"; desktop rows show all.
+    - A chosen slot shows its price per hour and "Continuă" (fixed above the phone bar, a
+      card under the list on desktop), which opens `/facilitati/:id?interval=<slotId>` for
+      screen 03 (CB-19). Changing the day or a filter drops the choice.
+    *Rejected:* Figma's Monday–Sunday strip (past days, and no way to the next week until
+    CB-18); filtering price and amenities on the client (options not in Figma, and closed
+    facilities are missing from `GET /facilities`).
 
 ---
 

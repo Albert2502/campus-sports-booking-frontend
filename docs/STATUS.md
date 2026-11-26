@@ -3,23 +3,21 @@
 Where the project actually stands, kept up to date as milestones land and issues get fixed.
 `docs/DESIGN.md` is the decision record and changes rarely; this file changes often.
 
-_Last updated: 2026-11-20._
+_Last updated: 2026-11-26._
 
 ## Current work
 
-- **Task:** CB-51 password reset screens, branch `feature/CB-51-password-reset-pages`
-  (stacked on CB-50, PR #4): "Ai uitat parola?" on screen 01 → `/parola-uitata` (email,
-  `POST /auth/password-reset`) and `/resetare-parola?token=...` from the email (new
-  password, `POST /auth/password-reset/confirm`), then back to login with a notice. Backend
-  PR #5. The login card layout moves to a shared `AuthCard`.
-- **Files touched:** `src/components/AuthCard.jsx`, `src/pages/LoginPage.jsx`,
-  `src/pages/ForgotPasswordPage.jsx`, `src/pages/ResetPasswordPage.jsx` (+ tests),
-  `src/api/auth.js`, `src/api/errors.js`, `src/App.jsx`, `docs/openapi.yaml`,
+- **Task:** M2 / CB-17 screen 02 Calendar și filtre (Alexandru), branch
+  `feature/CB-17-calendar` from `main` (DESIGN §5, 11): 7-day strip, sport and time-range
+  filters, facility cards with their slots (free / occupied / closed), "+N intervale" on
+  phones, rows on desktop, and the chosen slot with "Continuă". Needs backend CB-15
+  (`GET /slots`) and CB-14 (`GET /sports`).
+- **Files touched:** `src/api/slots.js`, `src/api/sports.js`, `src/lib/dates.js` (+ test),
+  `src/pages/CalendarPage.jsx` (+ test), `src/pages/calendar/`, `src/App.jsx`,
   `docs/DESIGN.md`, `docs/STATUS.md`.
-- **Done so far:** both screens, login link and notice, shared `AuthCard`; 26 tests green;
-  full flow checked in the browser against the backend (reset, sign-in with the new password,
-  reused link refused) at 390/1440 (DESIGN §5, 7).
-- **Next step:** PR for Alexandru's review.
+- **Done so far:** the screen at 390 and 1440 px against backend CB-15 with
+  `db:dev-slots` data; 37 tests green (11 new).
+- **Next step:** PR for Albert's review; then CB-18 (date panel), stacked on this branch.
 - **Blockers / open questions:** none.
 
 ## Milestones
@@ -28,7 +26,7 @@ _Last updated: 2026-11-20._
 | --- | --- | --- |
 | **M0** | Planning: docs, schema v3, contract update, Jira sync (done 2026-11-12: CB-2, 4, 14, 15, 21, 30 edited; CB-44, 45, 46 created) | Done 2026-11-13 (PR #1 merged; openapi also on Confluence "Document swagger", attachment v2) |
 | **M1** | Lab 6: CB-2 repo setup, CB-5 React app, CB-45 admin Facilities CRUD screen, CB-46 facility images UI | Not started |
-| **M2** | MVP frontend tasks from Jira CB (planned after M1) | Not started |
+| **M2** | MVP frontend tasks from Jira CB (planned after M1) | In progress: CB-17 calendar in review |
 
 ## Bugs found and fixed
 
@@ -47,8 +45,10 @@ _Last updated: 2026-11-20._
 - `TODO(CB-12)`: `/admin` is open in Lab 6; CB-12 adds AdminRoute.
 - `TODO(CB-27)` in `src/App.jsx`: "Rezervări" in the menu opens a "not ready" page until
   screen 06 exists.
-- `TODO(CB-17)` in `src/App.jsx`: "Închiriază un teren" on screen 00 opens `/calendar`, a
-  "not ready" page until screen 02 exists.
+- `TODO(CB-19)` in `src/pages/calendar/SelectionBar.jsx`: "Continuă" opens
+  `/facilitati/:id?interval=<slotId>`; screen 03 has to read the chosen slot from there.
+- Screen 02 leaves out Figma's "Preț / oră" and "Dotări" filters and the "Prioritar" slot
+  state, which the API cannot back yet (DESIGN §5, 11).
 - `TODO(CB-19)` in `src/App.jsx`: "Închiriază" on a suggested facility opens
   `/facilitati/:facilityId`, a "not ready" page until screen 03 exists.
 - After login every role lands on screen 00, the admin too; the admin area and its menu
@@ -61,6 +61,9 @@ _Last updated: 2026-11-20._
 
 ## Not yet verified
 
+- Screen 02 was compared with the Figma frames "02 Acasă – mobil / desktop" by eye at 390
+  and 1440 px, not with the inspector; the phone sport and time menus were checked only in
+  tests (native `select`), not on a real phone.
 - The reset link was opened from a token made locally, not from a real email (the dev
   container cannot send email); the backend PR #5 lists how to check Ethereal delivery.
 - Figma frames were read through screenshots and layer names only (figma.com is blocked by the container network), so exact spacing and sizes still need checking with the Figma inspector during CB-5.
