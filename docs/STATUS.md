@@ -7,17 +7,17 @@ _Last updated: 2026-11-26._
 
 ## Current work
 
-- **Task:** M2 / CB-17 screen 02 Calendar și filtre (Alexandru), branch
-  `feature/CB-17-calendar` from `main` (DESIGN §5, 11): 7-day strip, sport and time-range
-  filters, facility cards with their slots (free / occupied / closed), "+N intervale" on
-  phones, rows on desktop, and the chosen slot with "Continuă". Needs backend CB-15
-  (`GET /slots`) and CB-14 (`GET /sports`).
-- **Files touched:** `src/api/slots.js`, `src/api/sports.js`, `src/lib/dates.js` (+ test),
-  `src/pages/CalendarPage.jsx` (+ test), `src/pages/calendar/`, `src/App.jsx`,
-  `docs/DESIGN.md`, `docs/STATUS.md`.
-- **Done so far:** the screen at 390 and 1440 px against backend CB-15 with
-  `db:dev-slots` data; 37 tests green (11 new).
-- **Next step:** PR for Albert's review; then CB-18 (date panel), stacked on this branch.
+- **Task:** M2 / CB-18 panel 02a Alege data (Alexandru), branch
+  `feature/CB-18-date-picker`, stacked on `feature/CB-17-calendar` (DESIGN §5, 12):
+  monthly calendar in Romanian (`react-day-picker` 10, new dependency), bottom sheet on
+  phones and dialog on desktop, dots on days with free slots, a chosen day outside the strip
+  starts a new week there.
+- **Files touched:** `package.json`, `package-lock.json`, `src/pages/calendar/DatePickerPanel.jsx`
+  (+ test), `src/styles/day-picker.css`, `src/pages/CalendarPage.jsx`, `src/api/slots.js`,
+  `src/lib/dates.js`, `src/components/icons.jsx`, `docs/DESIGN.md`, `docs/STATUS.md`.
+- **Done so far:** the panel at 390 and 1440 px against backend CB-15 (choose, close with ×,
+  Escape and a click outside, dots from the dev slots); 41 tests green (4 new).
+- **Next step:** PR for Albert's review, based on `feature/CB-17-calendar`.
 - **Blockers / open questions:** none.
 
 ## Milestones
@@ -26,7 +26,7 @@ _Last updated: 2026-11-26._
 | --- | --- | --- |
 | **M0** | Planning: docs, schema v3, contract update, Jira sync (done 2026-11-12: CB-2, 4, 14, 15, 21, 30 edited; CB-44, 45, 46 created) | Done 2026-11-13 (PR #1 merged; openapi also on Confluence "Document swagger", attachment v2) |
 | **M1** | Lab 6: CB-2 repo setup, CB-5 React app, CB-45 admin Facilities CRUD screen, CB-46 facility images UI | Not started |
-| **M2** | MVP frontend tasks from Jira CB (planned after M1) | In progress: CB-17 calendar in review |
+| **M2** | MVP frontend tasks from Jira CB (planned after M1) | In progress: CB-17 calendar, CB-18 date panel in review |
 
 ## Bugs found and fixed
 
@@ -47,6 +47,9 @@ _Last updated: 2026-11-26._
   screen 06 exists.
 - `TODO(CB-19)` in `src/pages/calendar/SelectionBar.jsx`: "Continuă" opens
   `/facilitati/:id?interval=<slotId>`; screen 03 has to read the chosen slot from there.
+- The production bundle is 502 kB, just over Vite's 500 kB warning, with the calendar
+  (499 kB without CB-18; the date panel itself is loaded on demand). Splitting more routes
+  with `React.lazy` would fix it; not urgent for a local-only app.
 - Screen 02 leaves out Figma's "Preț / oră" and "Dotări" filters and the "Prioritar" slot
   state, which the API cannot back yet (DESIGN §5, 11).
 - `TODO(CB-19)` in `src/App.jsx`: "Închiriază" on a suggested facility opens
@@ -61,6 +64,9 @@ _Last updated: 2026-11-26._
 
 ## Not yet verified
 
+- Panel 02a was compared with the Figma frames "02a Alege data – mobil / desktop" by eye at
+  390 and 1440 px, not with the inspector; keyboard use inside the month grid (arrows) is
+  react-day-picker's own and was not tested.
 - Screen 02 was compared with the Figma frames "02 Acasă – mobil / desktop" by eye at 390
   and 1440 px, not with the inspector; the phone sport and time menus were checked only in
   tests (native `select`), not on a real phone.

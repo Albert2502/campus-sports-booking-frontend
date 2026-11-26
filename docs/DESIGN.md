@@ -242,6 +242,25 @@ The dev server proxies `/api` and `/uploads` to the backend (default `http://loc
     *Rejected:* Figma's Monday–Sunday strip (past days, and no way to the next week until
     CB-18); filtering price and amenities on the client (options not in Figma, and closed
     facilities are missing from `GET /facilities`).
+12. **Panel 02a Alege data (2026-11-26, CB-18).** The calendar button next to the date on
+    screen 02 opens the Figma frames "02a Alege data – mobil / desktop": a bottom sheet on
+    phones, a small dialog on desktop, with `react-day-picker` 10 in Romanian (its own `ro`
+    locale, built on date-fns, which it brings itself), month and year menus, arrows, days
+    before today disabled, a "Data selectată" box and "Alege data". ×, Escape and a click
+    outside close it without a change.
+    - **A chosen day outside the strip starts a new rolling week on that day;** one inside
+      the strip only moves the selection.
+    - **Dots under days with free slots** (Figma): one `GET /slots?from&to&available=true`
+      per shown month. Romania's midnight is 21:00 or 22:00 UTC, so the request starts at
+      21:00 UTC on the last day of the month before and lasts 31 days (the API's maximum);
+      a slot after 23:00 on the 31st may miss its dot, which no facility's hours reach.
+    - Days are handed to the picker as local noon of the calendar day, so the device's time
+      zone cannot shift them; the picker's experimental `timeZone` prop is not used.
+    - The panel is loaded on first open (`React.lazy`): react-day-picker and date-fns
+      would add about 75 kB to the main bundle.
+    *Rejected:* a dependency on date-fns of our own (react-day-picker brings it, and the app
+    does not need it); the native `<input type="date">` (does not look like Figma and cannot
+    show the dots).
 
 ---
 
