@@ -1,0 +1,68 @@
+/* react-day-picker in the colours of panel 02a (Figma). */
+.alege-data .rdp-root {
+  --rdp-accent-color: var(--color-principala);
+  --rdp-accent-background-color: var(--color-fundal);
+  --rdp-day-height: 40px;
+  --rdp-day-width: 40px;
+  --rdp-day_button-height: 36px;
+  --rdp-day_button-width: 36px;
+  --rdp-selected-border: none;
+  --rdp-today-color: var(--color-principala);
+  --rdp-disabled-opacity: 0.35;
+  font-size: 14px;
+}
+
+/* The month fills the panel, as in Figma, instead of 7 fixed-width cells. */
+.alege-data .rdp-root,
+.alege-data .rdp-months,
+.alege-data .rdp-month,
+.alege-data .rdp-month_grid {
+  width: 100%;
+  max-width: none;
+}
+
+.alege-data .rdp-day {
+  width: auto;
+}
+
+.alege-data .rdp-day_button {
+  margin: 0 auto;
+}
+
+.alege-data .rdp-weekday {
+  font-size: 12px;
+  font-weight: normal;
+}
+
+.alege-data .rdp-day_button {
+  position: relative;
+}
+
+.alege-data .rdp-selected {
+  font-size: inherit;
+  opacity: 1;
+}
+
+.alege-data .rdp-selected .rdp-day_button {
+  background: var(--color-principala);
+  color: #fff;
+}
+
+/* A dot under days that still have free slots. */
+.alege-data .rdp-has-free .rdp-day_button::after {
+  content: '';
+  position: absolute;
+  bottom: 1px;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 9999px;
+  background: currentColor;
+  transform: translateX(-50%);
+}
+
+.alege-data .rdp-dropdown_root {
+  border-radius: 9999px;
+  padding: 4px 12px;
+  box-shadow: inset 0 0 0 1px var(--color-bordura);
+}
