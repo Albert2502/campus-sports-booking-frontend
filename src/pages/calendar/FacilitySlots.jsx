@@ -13,7 +13,7 @@ const STATE_LABELS = {
 };
 
 const SLOT_BASE =
-  'h-10 rounded-lg px-4 text-sm font-bold transition-colors md:flex-1';
+  'h-10 w-[72px] rounded-lg text-sm font-bold transition-colors md:w-24';
 
 function slotClass(slot, selected) {
   if (selected) {
@@ -59,20 +59,25 @@ export default function FacilitySlots({
   const hidden = expanded ? 0 : group.slots.length - PHONE_VISIBLE;
 
   return (
-    <Card padding="p-4 md:p-5">
-      <h3 className="text-lg font-bold">{group.facilityName}</h3>
-      <p className="text-sm text-text-secundar">
-        {group.sportName}
-        {capacity ? ` · ${capacity} jucători` : ''}
-      </p>
-      <ul className="mt-4 flex flex-wrap gap-2">
+    <Card padding="p-4 md:p-5" className="md:flex md:items-start md:gap-6">
+      <div className="md:w-44 md:shrink-0 md:pt-1">
+        <h3 className="text-lg font-bold">{group.facilityName}</h3>
+        <p className="text-sm text-text-secundar">
+          {group.sportName}
+          {capacity ? ` · ${capacity} jucători` : ''}
+        </p>
+      </div>
+      {/* Desktop rows always show every slot; only phones collapse them. */}
+      <ul className="mt-4 flex flex-wrap gap-2 md:mt-0 md:flex-1">
         {group.slots.map((slot, index) => {
           const selected = slot.id === selectedId;
           const time = formatTime(slot.startsAt);
           return (
             <li
               key={slot.id}
-              className={!expanded && index >= PHONE_VISIBLE ? 'hidden' : ''}
+              className={
+                !expanded && index >= PHONE_VISIBLE ? 'hidden md:block' : ''
+              }
             >
               <button
                 type="button"
@@ -92,7 +97,7 @@ export default function FacilitySlots({
         <button
           type="button"
           onClick={() => setExpanded(true)}
-          className="mt-3 text-sm font-bold text-principala hover:underline"
+          className="mt-3 text-sm font-bold text-principala hover:underline md:hidden"
         >
           +{hidden} intervale
         </button>

@@ -1,4 +1,4 @@
-import { dayLabel } from '../../lib/dates';
+import { dayLabel, formatLongDay } from '../../lib/dates';
 
 /**
  * The 7-day strip of screen 02: circles on phones, pills on desktop (Figma).
@@ -19,6 +19,7 @@ export default function DayStrip({ days, selected, onSelect }) {
           <button
             key={day}
             type="button"
+            aria-label={formatLongDay(day)}
             aria-pressed={isSelected}
             onClick={() => onSelect(day)}
             className={`flex size-11 flex-col items-center justify-center rounded-full text-xs leading-tight md:h-10 md:w-auto md:flex-1 md:flex-row md:gap-1 md:text-sm ${

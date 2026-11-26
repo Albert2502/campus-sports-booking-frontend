@@ -10,13 +10,14 @@ function priceText(pricePerHour) {
 }
 
 /**
- * The chosen slot's price and "Continuă", fixed above the phone bar (Figma).
+ * The chosen slot's price and "Continuă": fixed above the phone bar, a card
+ * under the list on desktop (Figma).
  * @param {{slot: Object, pricePerHour: ?number}} props `pricePerHour` from
  *     GET /facilities; without it the slot's own price is shown
  */
 export default function SelectionBar({ slot, pricePerHour }) {
   return (
-    <div className="fixed inset-x-0 bottom-[65px] z-10 flex items-center justify-between gap-4 bg-suprafata px-4 py-3 shadow-[0_-4px_12px_rgba(0,0,0,0.08)]">
+    <div className="fixed inset-x-0 bottom-[65px] z-10 flex items-center justify-between gap-4 bg-suprafata px-4 py-3 shadow-[0_-4px_12px_rgba(0,0,0,0.08)] md:static md:rounded-2xl md:px-5 md:py-4 md:shadow-sm md:ring-1 md:ring-bordura">
       <p className="text-base font-bold">
         {pricePerHour === null
           ? `${PRICE.format(slot.price)} lei`

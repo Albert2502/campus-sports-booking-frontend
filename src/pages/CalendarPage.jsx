@@ -6,7 +6,7 @@ import { getFacilities } from '../api/facilities';
 import { getSlots } from '../api/slots';
 import { getSports } from '../api/sports';
 import { Button, Card, ErrorState, LoadingState } from '../components/ui';
-import { addDays, formatDayRange, today } from '../lib/dates';
+import { addDays, formatDayRange, formatLongDay, today } from '../lib/dates';
 import CalendarFilters, { INTERVALS } from './calendar/CalendarFilters';
 import DayStrip from './calendar/DayStrip';
 import FacilitySlots, { SlotLegend } from './calendar/FacilitySlots';
@@ -34,6 +34,15 @@ function byFacility(slots) {
     groups.get(slot.facilityId).slots.push(slot);
   }
   return [...groups.values()];
+}
+
+/** "5 intervale libere", "1 interval liber", "Niciun interval liber". */
+function freeText(slots) {
+  const free = slots.filter((slot) => slot.availability === 'free').length;
+  if (free === 0) {
+    return 'Niciun interval liber';
+  }
+  return free === 1 ? '1 interval liber' : `${free} intervale libere`;
 }
 
 /** Screen 02 Calendar și filtre (Figma "02 Acasă"), data from GET /slots. */
@@ -127,8 +136,12 @@ export default function CalendarPage() {
   }
 
   return (
-    <div className={`flex flex-col gap-6 ${selected ? 'pb-20' : ''}`}>
-      <h1 className="text-[28px] font-bold md:text-[32px]">
+    <div
+      className={`flex flex-col gap-6 md:grid md:grid-cols-[240px_1fr] md:items-start md:gap-8 ${
+        selected ? 'pb-20 md:pb-0' : ''
+      }`}
+    >
+      <h1 className="text-[28px] font-bold md:col-span-2 md:text-[32px]">
         Calendar și filtre
       </h1>
       <CalendarFilters
@@ -140,21 +153,37 @@ export default function CalendarPage() {
         onReset={resetFilters}
       />
       <section className="flex flex-col gap-4" aria-label="Intervale">
-        <h2 className="text-base font-bold">
+        <h2 className="text-base font-bold md:hidden">
           {formatDayRange(days[0], days[STRIP_DAYS - 1])}
+        </h2>
+        <h2 className="hidden text-lg font-bold md:block">
+          {formatLongDay(day)}
         </h2>
         <DayStrip days={days} selected={day} onSelect={choose(setDay)} />
         <SlotLegend />
         {renderSlots()}
+        {slots.isSuccess && slots.data.length > 0 && (
+          <p className="text-sm text-text-secundar">
+            {freeText(slots.data)} · {interval.label}
+          </p>
+        )}
+        {selected && (
+          <SelectionBar
+            slot={selected}
+            pricePerHour={
+              facilityById.get(selected.facilityId)?.pricePerHour ?? null
+            }
+          />
+        )}
+        <Card padding="p-5" className="hidden md:block">
+          <h2 className="text-lg font-bold text-principala">
+            Mișcare în campus, în ritmul tău
+          </h2>
+          <p className="mt-1 text-sm text-text-secundar">
+            Descoperă facilitățile sportive și rezervă-ți următorul antrenament.
+          </p>
+        </Card>
       </section>
-      {selected && (
-        <SelectionBar
-          slot={selected}
-          pricePerHour={
-            facilityById.get(selected.facilityId)?.pricePerHour ?? null
-          }
-        />
-      )}
     </div>
   );
 }
