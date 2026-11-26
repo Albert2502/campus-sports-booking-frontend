@@ -2,12 +2,15 @@ import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 
 import { errorMessage } from '../api/errors';
+import { getFacilities } from '../api/facilities';
 import { getSlots } from '../api/slots';
 import { getSports } from '../api/sports';
-import { ErrorState, LoadingState } from '../components/ui';
-import { addDays, formatDayRange, formatTime, today } from '../lib/dates';
+import { Button, Card, ErrorState, LoadingState } from '../components/ui';
+import { addDays, formatDayRange, today } from '../lib/dates';
 import CalendarFilters, { INTERVALS } from './calendar/CalendarFilters';
 import DayStrip from './calendar/DayStrip';
+import FacilitySlots, { SlotLegend } from './calendar/FacilitySlots';
+import SelectionBar from './calendar/SelectionBar';
 
 const STRIP_DAYS = 7;
 
@@ -40,13 +43,20 @@ export default function CalendarPage() {
   const [day, setDay] = useState(stripStart);
   const [sportId, setSportId] = useState('');
   const [intervalId, setIntervalId] = useState('all');
+  const [selected, setSelected] = useState(null);
 
   const interval = INTERVALS.find((item) => item.id === intervalId);
   const days = Array.from({ length: STRIP_DAYS }, (_, index) =>
     addDays(stripStart, index),
   );
+  const filtered = sportId !== '' || intervalId !== 'all';
 
   const sports = useQuery({ queryKey: ['sports'], queryFn: getSports });
+  // Shared with screen 00; gives the capacity and the price per hour.
+  const facilities = useQuery({
+    queryKey: ['facilities', 'active'],
+    queryFn: getFacilities,
+  });
   const slots = useQuery({
     queryKey: ['slots', day, sportId, intervalId],
     queryFn: () =>
@@ -57,10 +67,22 @@ export default function CalendarPage() {
         toTime: interval.toTime,
       }),
   });
+  const facilityById = new Map(
+    (facilities.data ?? []).map((facility) => [facility.id, facility]),
+  );
+
+  // Another day or filter shows other slots, so the choice is dropped.
+  function choose(setter) {
+    return (value) => {
+      setter(value);
+      setSelected(null);
+    };
+  }
 
   function resetFilters() {
     setSportId('');
     setIntervalId('all');
+    setSelected(null);
   }
 
   function renderSlots() {
@@ -75,38 +97,64 @@ export default function CalendarPage() {
         />
       );
     }
+    if (slots.data.length === 0) {
+      return (
+        <Card padding="p-8" className="text-center">
+          <p className="text-text-secundar">
+            Nu există intervale pentru ziua aleasă.
+          </p>
+          {filtered && (
+            <Button variant="outline" className="mt-4" onClick={resetFilters}>
+              Șterge filtrele
+            </Button>
+          )}
+        </Card>
+      );
+    }
     return (
-      <ul className="flex flex-col gap-3">
+      <div className="flex flex-col gap-4">
         {byFacility(slots.data).map((group) => (
-          <li key={group.facilityId}>
-            {group.facilityName}:{' '}
-            {group.slots.map((slot) => formatTime(slot.startsAt)).join(', ')}
-          </li>
+          <FacilitySlots
+            key={group.facilityId}
+            group={group}
+            capacity={facilityById.get(group.facilityId)?.capacity ?? null}
+            selectedId={selected?.id ?? null}
+            onSelect={setSelected}
+          />
         ))}
-      </ul>
+      </div>
     );
   }
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className={`flex flex-col gap-6 ${selected ? 'pb-20' : ''}`}>
       <h1 className="text-[28px] font-bold md:text-[32px]">
         Calendar și filtre
       </h1>
       <CalendarFilters
         sports={sports.data ?? []}
         sportId={sportId}
-        onSportChange={setSportId}
+        onSportChange={choose(setSportId)}
         intervalId={intervalId}
-        onIntervalChange={setIntervalId}
+        onIntervalChange={choose(setIntervalId)}
         onReset={resetFilters}
       />
       <section className="flex flex-col gap-4" aria-label="Intervale">
         <h2 className="text-base font-bold">
           {formatDayRange(days[0], days[STRIP_DAYS - 1])}
         </h2>
-        <DayStrip days={days} selected={day} onSelect={setDay} />
+        <DayStrip days={days} selected={day} onSelect={choose(setDay)} />
+        <SlotLegend />
         {renderSlots()}
       </section>
+      {selected && (
+        <SelectionBar
+          slot={selected}
+          pricePerHour={
+            facilityById.get(selected.facilityId)?.pricePerHour ?? null
+          }
+        />
+      )}
     </div>
   );
 }
