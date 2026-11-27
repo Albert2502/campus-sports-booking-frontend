@@ -15,7 +15,7 @@ _None._ Lab 6 (M1) is merged; M2 is planned next.
 | --- | --- | --- |
 | **M0** | Planning: docs, schema v3, contract update, Jira sync (done 2026-11-12: CB-2, 4, 14, 15, 21, 30 edited; CB-44, 45, 46 created) | Done 2026-11-13 (PR #1 merged; openapi also on Confluence "Document swagger", attachment v2) |
 | **M1** | Lab 6: CB-2 repo setup, CB-5 React app, CB-45 admin Facilities CRUD screen, CB-46 facility images UI | Done 2026-11-27: CB-2, CB-5 with CB-11 (PR #2, 2026-11-20, DESIGN §5, 1); CB-12 admin area (PR #6); CB-45 admin Facilities (PR #7); CB-46 facility images (PR #8) |
-| **M2** | MVP frontend tasks from Jira CB (planned after M1) | Not started |
+| **M2** | MVP frontend tasks from Jira CB (planned after M1) | In progress: CB-17 calendar (PR #9, merged 2026-11-27) |
 
 ## Bugs found and fixed
 
@@ -41,8 +41,10 @@ _None._ Lab 6 (M1) is merged; M2 is planned next.
   local-only app.
 - `TODO(CB-27)` in `src/App.jsx`: "Rezervări" in the menu opens a "not ready" page until
   screen 06 exists.
-- `TODO(CB-17)` in `src/App.jsx`: "Închiriază un teren" on screen 00 opens `/calendar`, a
-  "not ready" page until screen 02 exists.
+- `TODO(CB-19)` in `src/pages/calendar/SelectionBar.jsx`: "Continuă" opens
+  `/facilitati/:id?interval=<slotId>`; screen 03 has to read the chosen slot from there.
+- Screen 02 leaves out Figma's "Preț / oră" and "Dotări" filters and the "Prioritar" slot
+  state, which the API cannot back yet (DESIGN §5, 11).
 - `TODO(CB-19)` in `src/App.jsx`: "Închiriază" on a suggested facility opens
   `/facilitati/:facilityId`, a "not ready" page until screen 03 exists.
 - `TODO(M2)` in `src/pages/ProfilePage.jsx`: the "Plătește amenda" button on a blocked
@@ -59,6 +61,9 @@ _None._ Lab 6 (M1) is merged; M2 is planned next.
 - Admin Facilities (CB-45) compared with the Figma frames by eye at 390 and 1440 px, not with
   the inspector. The time inputs showed AM/PM in the headless browser of the dev container
   (its system locale); a browser set to Romanian should show 24-hour times, not checked.
+- Screen 02 was compared with the Figma frames "02 Acasă – mobil / desktop" by eye at 390
+  and 1440 px, not with the inspector; the phone sport and time menus were checked only in
+  tests (native `select`), not on a real phone.
 - The reset link was opened from a token made locally, not from a real email (the dev
   container cannot send email); the backend PR #5 lists how to check Ethereal delivery.
 - Figma frames were read through screenshots and layer names only (figma.com is blocked by the container network), so exact spacing and sizes still need checking with the Figma inspector during CB-5.

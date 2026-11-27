@@ -4,6 +4,7 @@ import AdminRoute from './components/AdminRoute';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminLayout from './layouts/AdminLayout';
 import UserLayout from './layouts/UserLayout';
+import CalendarPage from './pages/CalendarPage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import ChangePasswordPage from './pages/ChangePasswordPage';
@@ -28,11 +29,7 @@ export default function App() {
         }
       >
         <Route index element={<HomePage />} />
-        {/* TODO(CB-17): screen 02 Calendar și filtre. */}
-        <Route
-          path="calendar"
-          element={<NotReadyPage title="Calendar și filtre" />}
-        />
+        <Route path="calendar" element={<CalendarPage />} />
         {/* TODO(CB-19): screen 03 Detalii facilitate. */}
         <Route
           path="facilitati/:facilityId"
