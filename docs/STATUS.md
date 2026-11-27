@@ -7,7 +7,7 @@ _Last updated: 2026-11-27._
 
 ## Current work
 
-_None._ CB-52 (Docker setup) is waiting for review on `feature/CB-52-docker`.
+_None._
 
 ## Milestones
 
@@ -58,9 +58,11 @@ _None._ CB-52 (Docker setup) is waiting for review on `feature/CB-52-docker`.
 
 ## Not yet verified
 
-- Docker image (CB-52): the `Dockerfile` and `nginx.conf` were never built or run (no Docker
-  or nginx in the dev container). To check: from the backend, `docker compose up -d --build`,
-  then open http://localhost:8080, reload on `/admin/facilitati` and upload an image.
+- Docker image (CB-52): not built in the dev container (no Docker or nginx). The owner ran the
+  stack on 2026-11-27 and logged in; reloading on a client-side route and image upload
+  through nginx were not reported. To check: from the backend,
+  `docker compose -f docker-compose-alt.yml up -d --build`, then open http://localhost:8080,
+  reload on `/admin/facilitati` and upload an image.
 - Facility images (CB-46): closing the drawer during a multi-file upload stops the files not
   sent yet (the one in flight still finishes); not checked in the browser. Dropping a file
   outside the drop zone lets the browser open it.
