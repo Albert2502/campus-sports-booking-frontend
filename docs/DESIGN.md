@@ -161,8 +161,8 @@ The dev server proxies `/api` and `/uploads` to the backend (default `http://loc
   "Facilitatea a fost salvată"; image upload with previews and "× Șterge"; loading, empty and
   error states.
 - **Admin layout as in Figma** (blue sidebar on desktop, bottom bar on mobile); in Lab 6 only
-  "Facilități" is shown, the other items appear with their tasks. No auth yet: `TODO(CB-12)`
-  AdminRoute.
+  "Facilități" is shown, the other items appear with their tasks. Guarded by `AdminRoute`
+  (§5, 8).
 
 ---
 
@@ -218,9 +218,40 @@ The dev server proxies `/api` and `/uploads` to the backend (default `http://loc
    login with a notice. An expired or used link (410) shows a message and "Cere un link nou".
    *Rejected:* signing the user in right after the reset (the API returns no token, and a
    fresh login confirms the new password).
-11. **Screen 02 Calendar și filtre (2026-11-26, CB-17).** Numbered after §5, 8–10, which are
-    on the open admin branches. Built from the Figma frames "02 Acasă – mobil / desktop"
-    against backend CB-15 (`GET /slots`, `GET /sports`); `GET /facilities` (shared with
+8. **Admin area next to the user pages (2026-11-25, CB-12).** The admin keeps the student
+   and teacher pages and lands on screen 00 after login, like everybody else; the user menu
+   gets an "Administrare" entry (admin only) that opens `/admin`, which goes to
+   `/admin/facilitati`. `AdminLayout` follows the Figma frames "Admin – Facilități": blue
+   sidebar on desktop, blue bottom bar on phones, the active item in the accent colour. Figma
+   has no way back or out of the admin area, so both get "‹ Înapoi la aplicație" (to `/`)
+   and "Ieșire" (sidebar bottom on desktop; last two items of the phone bar, where the
+   "‹" becomes an arrow icon like the other items). Only
+   "Facilități" is listed; Rapoarte, Rezervări and Utilizatori și reguli come with their
+   tasks. A signed-in non-admin on an `/admin` page sees "Acces interzis" (`AdminRoute`);
+   the API refuses their admin requests anyway. *Rejected:* sending the admin straight to
+   `/admin` after login (the admin also books facilities); redirecting non-admins to `/`
+   without a message.
+9. **Opening hours in the admin form and list (2026-11-25, CB-45).** The API takes either
+   all 7 days or no schedule (`hours: null`, no limit). The drawer adds a "Program pe zile"
+   switch above the Figma day rows: off sends `null`, on shows the 7 rows (each with an
+   "Închis" switch and the opening and closing times). A new facility starts with it on and
+   08:00–22:00 every day. The list's "Program" column shows the range when every open day has
+   the same hours (closed days ignored), "Program variabil" when they differ, "Închis" when
+   every day is closed, and "Fără restricție" with no schedule. *Rejected:* always sending 7
+   days (no way to set "no limit" from the UI); showing Monday's hours (misleading).
+10. **Images in the facility drawer (2026-11-25, CB-46).** Images belong to a saved facility
+    (`POST /facilities/{id}/images`), so in "Adaugă" the "Imagini" section only says
+    "Salvează facilitatea ca să adaugi imagini"; after the first save the drawer stays open
+    as "Editează facilitate" with the toast, so images can be added right away. Uploads and
+    "× Șterge" take effect at once, independent of "Salvează facilitatea" / "Anulează"
+    (the section says so). Several files can be picked or dropped; they are sent one by one
+    and each failure shows the server's message next to the file name. The limits (JPG/PNG,
+    5 MB, 5 images) are only shown as text; the API decides. "× Șterge" deletes without a
+    confirmation, as in Figma. *Rejected:* keeping picked files in the form and uploading
+    them on save (a create that succeeds with a failed upload leaves a half-saved state);
+    hiding the section until the facility exists (Figma shows it in "Adaugă").
+11. **Screen 02 Calendar și filtre (2026-11-26, CB-17).** Built from the Figma frames
+    "02 Acasă – mobil / desktop" against backend CB-15 (`GET /slots`, `GET /sports`); `GET /facilities` (shared with
     screen 00) adds the capacity and the price per hour.
     - **A rolling week from today** in the day strip, instead of Figma's Monday–Sunday
       week, so no past day is ever offered and the strip works before the date panel (CB-18)
@@ -261,6 +292,12 @@ The dev server proxies `/api` and `/uploads` to the backend (default `http://loc
     *Rejected:* a dependency on date-fns of our own (react-day-picker brings it, and the app
     does not need it); the native `<input type="date">` (does not look like Figma and cannot
     show the dots).
+13. **One time zone for days and hours: Europe/Bucharest (2026-11-27).** The app serves one
+    campus in Romania, so "today", the day strip, the date panel and slot times use Romanian
+    local time (`src/lib/dates.js`), whatever the device's time zone, matching the days of
+    `GET /slots?date=` (backend DESIGN §5, 9). Daylight saving time follows the time zone
+    rules. Owner's decision. *Rejected:* the device's time zone (a visitor abroad would see
+    days that differ from the API's); UTC days.
 
 ---
 

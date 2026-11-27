@@ -3,30 +3,19 @@
 Where the project actually stands, kept up to date as milestones land and issues get fixed.
 `docs/DESIGN.md` is the decision record and changes rarely; this file changes often.
 
-_Last updated: 2026-11-26._
+_Last updated: 2026-11-27._
 
 ## Current work
 
-- **Task:** M2 / CB-18 panel 02a Alege data (Alexandru), branch
-  `feature/CB-18-date-picker`, stacked on `feature/CB-17-calendar` (DESIGN §5, 12):
-  monthly calendar in Romanian (`react-day-picker` 10, new dependency), bottom sheet on
-  phones and dialog on desktop, dots on days with free slots, a chosen day outside the strip
-  starts a new week there.
-- **Files touched:** `package.json`, `package-lock.json`, `src/pages/calendar/DatePickerPanel.jsx`
-  (+ test), `src/styles/day-picker.css`, `src/pages/CalendarPage.jsx`, `src/api/slots.js`,
-  `src/lib/dates.js`, `src/components/icons.jsx`, `docs/DESIGN.md`, `docs/STATUS.md`.
-- **Done so far:** the panel at 390 and 1440 px against backend CB-15 (choose, close with ×,
-  Escape and a click outside, dots from the dev slots); 41 tests green (4 new).
-- **Next step:** PR for Albert's review, based on `feature/CB-17-calendar`.
-- **Blockers / open questions:** none.
+_None._ Lab 6 (M1) is merged; M2 is planned next.
 
 ## Milestones
 
 | | Scope | Status |
 | --- | --- | --- |
 | **M0** | Planning: docs, schema v3, contract update, Jira sync (done 2026-11-12: CB-2, 4, 14, 15, 21, 30 edited; CB-44, 45, 46 created) | Done 2026-11-13 (PR #1 merged; openapi also on Confluence "Document swagger", attachment v2) |
-| **M1** | Lab 6: CB-2 repo setup, CB-5 React app, CB-45 admin Facilities CRUD screen, CB-46 facility images UI | Not started |
-| **M2** | MVP frontend tasks from Jira CB (planned after M1) | In progress: CB-17 calendar, CB-18 date panel in review |
+| **M1** | Lab 6: CB-2 repo setup, CB-5 React app, CB-45 admin Facilities CRUD screen, CB-46 facility images UI | Done 2026-11-27: CB-2, CB-5 with CB-11 (PR #2, 2026-11-20, DESIGN §5, 1); CB-12 admin area (PR #6); CB-45 admin Facilities (PR #7); CB-46 facility images (PR #8) |
+| **M2** | MVP frontend tasks from Jira CB (planned after M1) | In progress: CB-17 calendar (PR #9), CB-18 date panel (PR #10), both merged 2026-11-27 |
 
 ## Bugs found and fixed
 
@@ -37,12 +26,19 @@ _Last updated: 2026-11-26._
 
 ## Open issues
 
+- `docs/openapi.yaml` (backend): `location` is not marked `nullable` in `Facility` and
+  `FacilityInput`, but the API accepts `null` / `''` and returns `null` for an empty location;
+  the admin form sends `null`. To fix in the backend contract and sync.
 - `docs/openapi.yaml` has 5 lint errors and 6 warnings under `redocly lint` (`nullable-type-sibling` ×3, `struct` ×2, missing 4XX on 4 operations, no license, example server). They were already in the team's original file; the v3 edits added none. To fix in a separate change once the team agrees.
-- Remote branches `claude/gracious-goodall-oqd3wc` (backend) and `claude/admiring-gates-0gfcp0` (frontend) are leftovers of an earlier session; their content is already on this branch. They have to be deleted on GitHub by hand (deletion from the dev container is refused).
 
 ## Still to do
 
-- `TODO(CB-12)`: `/admin` is open in Lab 6; CB-12 adds AdminRoute.
+- `TODO(polish)` in `src/pages/admin/useModalBehavior.js`: the drawer and the confirmation
+  dialog do not trap focus or give it back to the button that opened them; Escape closes the
+  drawer without asking about unsaved changes.
+- The production bundle is over Vite's 500 kB warning (520 kB, 163 kB gzipped) since the
+  admin screen; splitting the admin routes with `React.lazy` would fix it. Not urgent for a
+  local-only app.
 - `TODO(CB-27)` in `src/App.jsx`: "Rezervări" in the menu opens a "not ready" page until
   screen 06 exists.
 - `TODO(CB-19)` in `src/pages/calendar/SelectionBar.jsx`: "Continuă" opens
@@ -54,8 +50,6 @@ _Last updated: 2026-11-26._
   state, which the API cannot back yet (DESIGN §5, 11).
 - `TODO(CB-19)` in `src/App.jsx`: "Închiriază" on a suggested facility opens
   `/facilitati/:facilityId`, a "not ready" page until screen 03 exists.
-- After login every role lands on screen 00, the admin too; the admin area and its menu
-  come with CB-12 (AdminRoute) and CB-45.
 - `TODO(M2)` in `src/pages/ProfilePage.jsx`: the "Plătește amenda" button on a blocked
   account (needs fine payments) and the "Notificări prin email" switch (nothing stores the
   setting yet); left out instead of shown as fake controls (DESIGN §5, 4).
@@ -64,6 +58,12 @@ _Last updated: 2026-11-26._
 
 ## Not yet verified
 
+- Facility images (CB-46): closing the drawer during a multi-file upload stops the files not
+  sent yet (the one in flight still finishes); not checked in the browser. Dropping a file
+  outside the drop zone lets the browser open it.
+- Admin Facilities (CB-45) compared with the Figma frames by eye at 390 and 1440 px, not with
+  the inspector. The time inputs showed AM/PM in the headless browser of the dev container
+  (its system locale); a browser set to Romanian should show 24-hour times, not checked.
 - Panel 02a was compared with the Figma frames "02a Alege data – mobil / desktop" by eye at
   390 and 1440 px, not with the inspector; keyboard use inside the month grid (arrows) is
   react-day-picker's own and was not tested.
