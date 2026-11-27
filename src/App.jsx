@@ -1,6 +1,8 @@
 import { Navigate, Route, Routes } from 'react-router';
 
+import AdminRoute from './components/AdminRoute';
 import ProtectedRoute from './components/ProtectedRoute';
+import AdminLayout from './layouts/AdminLayout';
 import UserLayout from './layouts/UserLayout';
 import CalendarPage from './pages/CalendarPage';
 import HomePage from './pages/HomePage';
@@ -8,6 +10,7 @@ import LoginPage from './pages/LoginPage';
 import ChangePasswordPage from './pages/ChangePasswordPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import NotReadyPage from './pages/NotReadyPage';
+import FacilitiesPage from './pages/admin/FacilitiesPage';
 import ProfilePage from './pages/ProfilePage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 
@@ -39,6 +42,19 @@ export default function App() {
           path="rezervari"
           element={<NotReadyPage title="Rezervările mele" />}
         />
+      </Route>
+      <Route
+        path="admin"
+        element={
+          <ProtectedRoute>
+            <AdminRoute>
+              <AdminLayout />
+            </AdminRoute>
+          </ProtectedRoute>
+        }
+      >
+        <Route index element={<Navigate to="facilitati" replace />} />
+        <Route path="facilitati" element={<FacilitiesPage />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
