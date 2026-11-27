@@ -27,8 +27,9 @@ Other scripts: `npm run build`, `npm run lint`, `npm run format`.
 
 ## Run with Docker
 
-The frontend has no compose file of its own: the backend's `docker-compose.yml`
-builds this repo (it must be cloned next to the backend, as
-`campus-sports-booking-frontend`) and serves it with nginx on
-http://localhost:8080, together with the API and PostgreSQL. See "Run with
-Docker" in the backend README.
+The frontend has no compose file of its own: the backend's compose files build
+this repo (it must be cloned next to the backend, as
+`campus-sports-booking-frontend`) and serve it with nginx, together with the
+API and PostgreSQL. `docker-compose.yml` runs it behind Pangolin;
+`docker-compose-alt.yml` runs it locally on http://localhost:8080. See "Run
+with Docker" in the backend README.
