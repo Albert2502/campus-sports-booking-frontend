@@ -298,6 +298,14 @@ The dev server proxies `/api` and `/uploads` to the backend (default `http://loc
     `GET /slots?date=` (backend DESIGN §5, 9). Daylight saving time follows the time zone
     rules. Owner's decision. *Rejected:* the device's time zone (a visitor abroad would see
     days that differ from the API's); UTC days.
+14. **Docker image: built app served by nginx (2026-11-27).** The `Dockerfile` builds the app
+    with Node 24 and serves `dist/` with nginx (`nginx.conf`), which falls back to
+    `index.html` for client-side routes and proxies `/api` and `/uploads` to the API, as the
+    Vite dev server does, so the app keeps same-origin calls. The image is started by the
+    backend's `docker-compose.yml` (backend DESIGN §5, 10), which reaches the API under the
+    service name `api`. Owner's decision. *Rejected:* running the Vite dev server in the
+    container (not meant for serving a build); calling the API on another origin (needs CORS
+    and helmet's same-origin policy relaxed for `/uploads`).
 
 ---
 
