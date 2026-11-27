@@ -3,33 +3,18 @@
 Where the project actually stands, kept up to date as milestones land and issues get fixed.
 `docs/DESIGN.md` is the decision record and changes rarely; this file changes often.
 
-_Last updated: 2026-11-25._
+_Last updated: 2026-11-27._
 
 ## Current work
 
-- **Task:** CB-45 admin Facilities screen, branch `feature/CB-45-admin-facilities` (stacked
-  on CB-12, PR #6): `/admin/facilitati` per the Figma frames "Admin – Facilități": table on
-  desktop, cards on phones, search (name + location, diacritics ignored), Tip and Stare
-  filters, loading / empty / error states, add/edit drawer (full screen on phones) with
-  general info, price, minimum duration, the "Program pe zile" switch with 7 day rows,
-  amenities, status and maintenance note; Dezactivează / Reactivează with confirmation;
-  toast "Facilitatea a fost salvată". Needs backend PR #6 (CB-14). Images come with CB-46.
-- **Files touched:** `src/api/facilities.js`, `src/api/sports.js`, `src/pages/admin/`,
-  `src/components/`, `src/App.jsx`, tests, `docs/openapi.yaml` (synced from the backend),
-  `docs/DESIGN.md`, `docs/STATUS.md`.
-- **Done so far:** contract synced; schedule decisions taken (DESIGN §5, 9); list, filters,
-  states, drawer, status dialog, toast; 59 tests green; checked in the browser against the
-  backend at 390/1440 (create, edit to maintenance with a note, deactivate; database rows
-  checked).
-- **Next step:** PR for Alexandru's review (stacked on PR #6); then CB-46 images in the drawer.
-- **Blockers / open questions:** none.
+_None._ Lab 6 (M1) is merged; M2 is planned next.
 
 ## Milestones
 
 | | Scope | Status |
 | --- | --- | --- |
 | **M0** | Planning: docs, schema v3, contract update, Jira sync (done 2026-11-12: CB-2, 4, 14, 15, 21, 30 edited; CB-44, 45, 46 created) | Done 2026-11-13 (PR #1 merged; openapi also on Confluence "Document swagger", attachment v2) |
-| **M1** | Lab 6: CB-2 repo setup, CB-5 React app, CB-45 admin Facilities CRUD screen, CB-46 facility images UI | Not started |
+| **M1** | Lab 6: CB-2 repo setup, CB-5 React app, CB-45 admin Facilities CRUD screen, CB-46 facility images UI | Done 2026-11-27: CB-2, CB-5 with CB-11 (PR #2, 2026-11-20, DESIGN §5, 1); CB-12 admin area (PR #6); CB-45 admin Facilities (PR #7); CB-46 facility images (PR #8) |
 | **M2** | MVP frontend tasks from Jira CB (planned after M1) | Not started |
 
 ## Bugs found and fixed
@@ -48,8 +33,6 @@ _Last updated: 2026-11-25._
 
 ## Still to do
 
-- `TODO(CB-46)` in `src/pages/admin/FacilityDrawer.jsx`: the "Imagini" section of the
-  drawer (upload, previews, "× Șterge").
 - `TODO(polish)` in `src/pages/admin/useModalBehavior.js`: the drawer and the confirmation
   dialog do not trap focus or give it back to the button that opened them; Escape closes the
   drawer without asking about unsaved changes.
@@ -70,6 +53,9 @@ _Last updated: 2026-11-25._
 
 ## Not yet verified
 
+- Facility images (CB-46): closing the drawer during a multi-file upload stops the files not
+  sent yet (the one in flight still finishes); not checked in the browser. Dropping a file
+  outside the drop zone lets the browser open it.
 - Admin Facilities (CB-45) compared with the Figma frames by eye at 390 and 1440 px, not with
   the inspector. The time inputs showed AM/PM in the headless browser of the dev container
   (its system locale); a browser set to Romanian should show 24-hour times, not checked.

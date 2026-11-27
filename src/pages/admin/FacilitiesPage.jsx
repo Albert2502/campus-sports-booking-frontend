@@ -64,14 +64,28 @@ export default function FacilitiesPage() {
   const closeDrawer = useCallback(() => setDrawer(null), []);
   const closeDialog = useCallback(() => setToggling(null), []);
 
-  function saved() {
-    setDrawer(null);
-    setToggling(null);
+  function refreshLists() {
     queryClient.invalidateQueries({ queryKey: ['admin-facilities'] });
     // The user pages list the active facilities under ['facilities', ...].
     queryClient.invalidateQueries({ queryKey: ['facilities'] });
+  }
+
+  function toastSaved() {
     // A new object restarts the timer when two saves follow each other.
     setToast({ text: '✓ Facilitatea a fost salvată' });
+  }
+
+  function statusChanged() {
+    setToggling(null);
+    refreshLists();
+    toastSaved();
+  }
+
+  function drawerSaved(saved, { created }) {
+    // A created facility keeps the drawer open, now in edit mode, for images.
+    setDrawer(created ? { facility: saved } : null);
+    refreshLists();
+    toastSaved();
   }
 
   function setFilter(name) {
@@ -232,17 +246,19 @@ export default function FacilitiesPage() {
 
       {drawer && (
         <FacilityDrawer
+          key={drawer.facility?.id ?? 'new'}
           facility={drawer.facility}
           sports={sports}
           onClose={closeDrawer}
-          onSaved={saved}
+          onSaved={drawerSaved}
+          onImagesChanged={refreshLists}
         />
       )}
       {toggling && (
         <StatusConfirmDialog
           facility={toggling}
           onClose={closeDialog}
-          onDone={saved}
+          onDone={statusChanged}
         />
       )}
     </div>

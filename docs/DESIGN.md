@@ -239,6 +239,17 @@ The dev server proxies `/api` and `/uploads` to the backend (default `http://loc
    the same hours (closed days ignored), "Program variabil" when they differ, "Închis" when
    every day is closed, and "Fără restricție" with no schedule. *Rejected:* always sending 7
    days (no way to set "no limit" from the UI); showing Monday's hours (misleading).
+10. **Images in the facility drawer (2026-11-25, CB-46).** Images belong to a saved facility
+    (`POST /facilities/{id}/images`), so in "Adaugă" the "Imagini" section only says
+    "Salvează facilitatea ca să adaugi imagini"; after the first save the drawer stays open
+    as "Editează facilitate" with the toast, so images can be added right away. Uploads and
+    "× Șterge" take effect at once, independent of "Salvează facilitatea" / "Anulează"
+    (the section says so). Several files can be picked or dropped; they are sent one by one
+    and each failure shows the server's message next to the file name. The limits (JPG/PNG,
+    5 MB, 5 images) are only shown as text; the API decides. "× Șterge" deletes without a
+    confirmation, as in Figma. *Rejected:* keeping picked files in the form and uploading
+    them on save (a create that succeeds with a failed upload leaves a half-saved state);
+    hiding the section until the facility exists (Figma shows it in "Adaugă").
 
 ---
 
