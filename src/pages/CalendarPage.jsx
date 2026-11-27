@@ -1,10 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { lazy, Suspense, useCallback, useState } from 'react';
 
 import { errorMessage } from '../api/errors';
 import { getFacilities } from '../api/facilities';
 import { getSlots } from '../api/slots';
 import { getSports } from '../api/sports';
+import { CalendarIcon } from '../components/icons';
 import { Button, Card, ErrorState, LoadingState } from '../components/ui';
 import { addDays, formatDayRange, formatLongDay, today } from '../lib/dates';
 import CalendarFilters, { INTERVALS } from './calendar/CalendarFilters';
@@ -13,6 +14,10 @@ import FacilitySlots, { SlotLegend } from './calendar/FacilitySlots';
 import SelectionBar from './calendar/SelectionBar';
 
 const STRIP_DAYS = 7;
+
+// Loaded on first open: react-day-picker would push the main bundle past
+// Vite's 500 kB warning.
+const DatePickerPanel = lazy(() => import('./calendar/DatePickerPanel'));
 
 /**
  * The day's slots grouped by facility, in the API's order.
@@ -48,8 +53,10 @@ function freeText(slots) {
 /** Screen 02 Calendar și filtre (Figma "02 Acasă"), data from GET /slots. */
 export default function CalendarPage() {
   // A rolling week from today, so no day in the strip is in the past.
-  const [stripStart] = useState(today);
-  const [day, setDay] = useState(stripStart);
+  const [firstDay] = useState(today);
+  const [stripStart, setStripStart] = useState(firstDay);
+  const [day, setDay] = useState(firstDay);
+  const [pickerOpen, setPickerOpen] = useState(false);
   const [sportId, setSportId] = useState('');
   const [intervalId, setIntervalId] = useState('all');
   const [selected, setSelected] = useState(null);
@@ -86,6 +93,18 @@ export default function CalendarPage() {
       setter(value);
       setSelected(null);
     };
+  }
+
+  const closePicker = useCallback(() => setPickerOpen(false), []);
+
+  // A day outside the strip starts a new rolling week (DESIGN §5, 12).
+  function chooseDay(chosen) {
+    if (!days.includes(chosen)) {
+      setStripStart(chosen);
+    }
+    setDay(chosen);
+    setSelected(null);
+    setPickerOpen(false);
   }
 
   function resetFilters() {
@@ -153,12 +172,22 @@ export default function CalendarPage() {
         onReset={resetFilters}
       />
       <section className="flex flex-col gap-4" aria-label="Intervale">
-        <h2 className="text-base font-bold md:hidden">
-          {formatDayRange(days[0], days[STRIP_DAYS - 1])}
-        </h2>
-        <h2 className="hidden text-lg font-bold md:block">
-          {formatLongDay(day)}
-        </h2>
+        <div className="flex items-center justify-between gap-4">
+          <h2 className="text-base font-bold md:hidden">
+            {formatDayRange(days[0], days[STRIP_DAYS - 1])}
+          </h2>
+          <h2 className="hidden text-lg font-bold md:block">
+            {formatLongDay(day)}
+          </h2>
+          <button
+            type="button"
+            aria-label="Alege data"
+            onClick={() => setPickerOpen(true)}
+            className="flex size-10 items-center justify-center rounded-full text-text hover:bg-suprafata"
+          >
+            <CalendarIcon className="size-6" />
+          </button>
+        </div>
         <DayStrip days={days} selected={day} onSelect={choose(setDay)} />
         <SlotLegend />
         {renderSlots()}
@@ -184,6 +213,16 @@ export default function CalendarPage() {
           </p>
         </Card>
       </section>
+      {pickerOpen && (
+        <Suspense fallback={null}>
+          <DatePickerPanel
+            value={day}
+            firstDay={firstDay}
+            onChoose={chooseDay}
+            onClose={closePicker}
+          />
+        </Suspense>
+      )}
     </div>
   );
 }

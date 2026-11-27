@@ -15,7 +15,7 @@ _None._ Lab 6 (M1) is merged; M2 is planned next.
 | --- | --- | --- |
 | **M0** | Planning: docs, schema v3, contract update, Jira sync (done 2026-11-12: CB-2, 4, 14, 15, 21, 30 edited; CB-44, 45, 46 created) | Done 2026-11-13 (PR #1 merged; openapi also on Confluence "Document swagger", attachment v2) |
 | **M1** | Lab 6: CB-2 repo setup, CB-5 React app, CB-45 admin Facilities CRUD screen, CB-46 facility images UI | Done 2026-11-27: CB-2, CB-5 with CB-11 (PR #2, 2026-11-20, DESIGN §5, 1); CB-12 admin area (PR #6); CB-45 admin Facilities (PR #7); CB-46 facility images (PR #8) |
-| **M2** | MVP frontend tasks from Jira CB (planned after M1) | In progress: CB-17 calendar (PR #9, merged 2026-11-27) |
+| **M2** | MVP frontend tasks from Jira CB (planned after M1) | In progress: CB-17 calendar (PR #9), CB-18 date panel (PR #10), both merged 2026-11-27 |
 
 ## Bugs found and fixed
 
@@ -43,6 +43,9 @@ _None._ Lab 6 (M1) is merged; M2 is planned next.
   screen 06 exists.
 - `TODO(CB-19)` in `src/pages/calendar/SelectionBar.jsx`: "Continuă" opens
   `/facilitati/:id?interval=<slotId>`; screen 03 has to read the chosen slot from there.
+- The production bundle is 502 kB, just over Vite's 500 kB warning, with the calendar
+  (499 kB without CB-18; the date panel itself is loaded on demand). Splitting more routes
+  with `React.lazy` would fix it; not urgent for a local-only app.
 - Screen 02 leaves out Figma's "Preț / oră" and "Dotări" filters and the "Prioritar" slot
   state, which the API cannot back yet (DESIGN §5, 11).
 - `TODO(CB-19)` in `src/App.jsx`: "Închiriază" on a suggested facility opens
@@ -61,6 +64,9 @@ _None._ Lab 6 (M1) is merged; M2 is planned next.
 - Admin Facilities (CB-45) compared with the Figma frames by eye at 390 and 1440 px, not with
   the inspector. The time inputs showed AM/PM in the headless browser of the dev container
   (its system locale); a browser set to Romanian should show 24-hour times, not checked.
+- Panel 02a was compared with the Figma frames "02a Alege data – mobil / desktop" by eye at
+  390 and 1440 px, not with the inspector; keyboard use inside the month grid (arrows) is
+  react-day-picker's own and was not tested.
 - Screen 02 was compared with the Figma frames "02 Acasă – mobil / desktop" by eye at 390
   and 1440 px, not with the inspector; the phone sport and time menus were checked only in
   tests (native `select`), not on a real phone.

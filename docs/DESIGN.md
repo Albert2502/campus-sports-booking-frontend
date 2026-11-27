@@ -250,8 +250,8 @@ The dev server proxies `/api` and `/uploads` to the backend (default `http://loc
     confirmation, as in Figma. *Rejected:* keeping picked files in the form and uploading
     them on save (a create that succeeds with a failed upload leaves a half-saved state);
     hiding the section until the facility exists (Figma shows it in "Adaugă").
-11. **Screen 02 Calendar și filtre (2026-11-26, CB-17).** Built from the Figma frames "02 Acasă – mobil / desktop"
-    against backend CB-15 (`GET /slots`, `GET /sports`); `GET /facilities` (shared with
+11. **Screen 02 Calendar și filtre (2026-11-26, CB-17).** Built from the Figma frames
+    "02 Acasă – mobil / desktop" against backend CB-15 (`GET /slots`, `GET /sports`); `GET /facilities` (shared with
     screen 00) adds the capacity and the price per hour.
     - **A rolling week from today** in the day strip, instead of Figma's Monday–Sunday
       week, so no past day is ever offered and the strip works before the date panel (CB-18)
@@ -273,6 +273,31 @@ The dev server proxies `/api` and `/uploads` to the backend (default `http://loc
     *Rejected:* Figma's Monday–Sunday strip (past days, and no way to the next week until
     CB-18); filtering price and amenities on the client (options not in Figma, and closed
     facilities are missing from `GET /facilities`).
+12. **Panel 02a Alege data (2026-11-26, CB-18).** The calendar button next to the date on
+    screen 02 opens the Figma frames "02a Alege data – mobil / desktop": a bottom sheet on
+    phones, a small dialog on desktop, with `react-day-picker` 10 in Romanian (its own `ro`
+    locale, built on date-fns, which it brings itself), month and year menus, arrows, days
+    before today disabled, a "Data selectată" box and "Alege data". ×, Escape and a click
+    outside close it without a change.
+    - **A chosen day outside the strip starts a new rolling week on that day;** one inside
+      the strip only moves the selection.
+    - **Dots under days with free slots** (Figma): one `GET /slots?from&to&available=true`
+      per shown month. Romania's midnight is 21:00 or 22:00 UTC, so the request starts at
+      21:00 UTC on the last day of the month before and lasts 31 days (the API's maximum);
+      a slot after 23:00 on the 31st may miss its dot, which no facility's hours reach.
+    - Days are handed to the picker as local noon of the calendar day, so the device's time
+      zone cannot shift them; the picker's experimental `timeZone` prop is not used.
+    - The panel is loaded on first open (`React.lazy`): react-day-picker and date-fns
+      would add about 75 kB to the main bundle.
+    *Rejected:* a dependency on date-fns of our own (react-day-picker brings it, and the app
+    does not need it); the native `<input type="date">` (does not look like Figma and cannot
+    show the dots).
+13. **One time zone for days and hours: Europe/Bucharest (2026-11-27).** The app serves one
+    campus in Romania, so "today", the day strip, the date panel and slot times use Romanian
+    local time (`src/lib/dates.js`), whatever the device's time zone, matching the days of
+    `GET /slots?date=` (backend DESIGN §5, 9). Daylight saving time follows the time zone
+    rules. Owner's decision. *Rejected:* the device's time zone (a visitor abroad would see
+    days that differ from the API's); UTC days.
 
 ---
 

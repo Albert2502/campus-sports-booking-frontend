@@ -46,6 +46,15 @@ export function today(now = new Date()) {
 }
 
 /**
+ * The Romanian day of a moment, e.g. a slot's `startsAt`.
+ * @param {string|Date} dateTime
+ * @return {string} YYYY-MM-DD
+ */
+export function dayOf(dateTime) {
+  return isoDay.format(new Date(dateTime));
+}
+
+/**
  * @param {string} day YYYY-MM-DD
  * @param {number} count may be negative
  * @return {string} YYYY-MM-DD
@@ -95,6 +104,27 @@ export function formatDayRange(first, last) {
     return `${toDate(first).getUTCDate()}–${end}`;
   }
   return `${dayMonth.format(toDate(first))} – ${end}`;
+}
+
+/**
+ * A day as react-day-picker's Date: local noon of that calendar day, so the
+ * device's time zone never moves it to another day.
+ * @param {string} day YYYY-MM-DD
+ * @return {Date}
+ */
+export function toPickerDate(day) {
+  const [year, month, dayOfMonth] = day.split('-').map(Number);
+  return new Date(year, month - 1, dayOfMonth, 12);
+}
+
+/**
+ * The calendar day of a react-day-picker Date.
+ * @param {Date} date
+ * @return {string} YYYY-MM-DD
+ */
+export function fromPickerDate(date) {
+  const pad = (value) => String(value).padStart(2, '0');
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
 }
 
 /** E.g. "16:00" for a slot that starts at 16:00 in Romania. */

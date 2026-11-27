@@ -19,3 +19,21 @@ export async function getSlots({ date, sportId, fromTime, toTime }) {
   const { data } = await client.get('/slots', { params });
   return data;
 }
+
+/**
+ * GET /slots?from&to&available=true: the free slots of an interval (at most
+ * 31 days, the API's limit).
+ * @param {Date} from
+ * @param {Date} to
+ * @return {Promise<Array<Object>>}
+ */
+export async function getFreeSlotsBetween(from, to) {
+  const { data } = await client.get('/slots', {
+    params: {
+      from: from.toISOString(),
+      to: to.toISOString(),
+      available: true,
+    },
+  });
+  return data;
+}
