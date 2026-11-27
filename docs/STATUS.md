@@ -3,30 +3,18 @@
 Where the project actually stands, kept up to date as milestones land and issues get fixed.
 `docs/DESIGN.md` is the decision record and changes rarely; this file changes often.
 
-_Last updated: 2026-11-25._
+_Last updated: 2026-11-27._
 
 ## Current work
 
-- **Task:** CB-46 facility images in the admin drawer, branch
-  `feature/CB-46-facility-images-ui` (stacked on CB-45, PR #7): "Imagini" section with a
-  drop zone / file picker (JPG, PNG), one `POST /facilities/{id}/images` per file, previews
-  with "× Șterge" (`DELETE`); server messages shown per file (size, type, the 5-image limit).
-  Images exist only for a saved facility, so "Adaugă" shows "Salvează facilitatea ca să adaugi
-  imagini" and, after the first save, the drawer stays open in edit mode (DESIGN §5, 10).
-- **Files touched:** `src/api/facilities.js`, `src/pages/admin/` (drawer, new images
-  section, page), tests, `docs/DESIGN.md`, `docs/STATUS.md`.
-- **Done so far:** section, uploads, previews, delete, create → edit mode; 67 tests green;
-  checked in the browser against backend CB-44 at 390/1440 (7 files: 5 uploaded, the 6th
-  refused by the limit, a text file refused by type; delete; list thumbnail updated).
-- **Next step:** PR for Alexandru's review (stacked on PR #7).
-- **Blockers / open questions:** none.
+_None._ Lab 6 (M1) is merged; M2 is planned next.
 
 ## Milestones
 
 | | Scope | Status |
 | --- | --- | --- |
 | **M0** | Planning: docs, schema v3, contract update, Jira sync (done 2026-11-12: CB-2, 4, 14, 15, 21, 30 edited; CB-44, 45, 46 created) | Done 2026-11-13 (PR #1 merged; openapi also on Confluence "Document swagger", attachment v2) |
-| **M1** | Lab 6: CB-2 repo setup, CB-5 React app, CB-45 admin Facilities CRUD screen, CB-46 facility images UI | Not started |
+| **M1** | Lab 6: CB-2 repo setup, CB-5 React app, CB-45 admin Facilities CRUD screen, CB-46 facility images UI | Done 2026-11-27: CB-2, CB-5 with CB-11 (PR #2, 2026-11-20, DESIGN §5, 1); CB-12 admin area (PR #6); CB-45 admin Facilities (PR #7); CB-46 facility images (PR #8) |
 | **M2** | MVP frontend tasks from Jira CB (planned after M1) | Not started |
 
 ## Bugs found and fixed
